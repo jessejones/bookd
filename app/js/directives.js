@@ -103,6 +103,7 @@ angular.module('myApp.directives', []).
           var ct = new CanvasText();
           var canvas = element;
           var context = canvas.getContext('2d');
+          var parentOffset = $(element).parent().offset();
 
           ct.config({
             canvas: canvas,
@@ -142,8 +143,8 @@ angular.module('myApp.directives', []).
 
           ct.drawText({
             text: text,
-            x: 40,
-            y: 40,
+            x: $(element).width() * 0.2 / 2,
+            y: parentOffset.top,
             boxWidth: $(element).width() * 0.8
           });
         };

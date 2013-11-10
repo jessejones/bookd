@@ -29,7 +29,7 @@ angular.module('myApp.services', [])
 
     function canvasText(text) {
       var nestedText = text
-        .replace(/<\/?article[^>]*>|<a>[^<>]*<\/a>|<\/?div[^>]*>/ig, '')
+        .replace(/<\/?article[^>]*>|<a>.+?<\/a>|<\/?div[^>]*>/ig, '')
         .replace(/<span class="smallcaps">(.*)<\/span>/ig, function(match, p1) {
           return p1.toUpperCase();
         })
@@ -51,8 +51,9 @@ angular.module('myApp.services', [])
     }
 
     function removeNestedClasses(text) {
-      if (!text.match(/<class="([^"]+)">[^<]*(<br \/>)+/i)) return text;
-      var lessNested = text.replace(/<class="([^"]+)">([^<]*)(<br \/>+)/ig, '<class="$1">$2</class>$3<class="$1">');
+      if (!text.match(/<class="([^"]+)">[^<]*(<br \/>|<class)+/i)) return text;
+      var lessNested = text.replace(/<class="([^"]+)">([^<]*)(<br \/>+)/ig, '<class="$1">$2</class>$3<class="$1">')
+                           .replace(/<class="([^"]+)">([^<]*)<class="em">([^<]*)<\/class>/ig, '<class="$1">$2$3');
       return removeNestedClasses(lessNested);
     }
   }]);

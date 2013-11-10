@@ -9,8 +9,71 @@ angular.module('myApp.directives', []).
       elm.text(version);
     };
   }])
-  .directive('canvasText', ['$timeout', 'CanvasText', function($timeout, CanvasText) {
-    var testTextBEM = 'c5MQB73bVWP1mV';
+  .directive('blackoutCanvas', [function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        var canvas = element[0];
+        var context = canvas.getContext('2d');
+        var clickX = [];
+        var clickY = [];
+        var clickDrag = [];
+        var paint;
+
+        function addClick(x, y, dragging)
+        {
+          clickX.push(x);
+          clickY.push(y);
+          clickDrag.push(dragging);
+        }
+
+        function redraw(){
+          context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+          
+          context.strokeStyle = "#000";
+          context.lineJoin = "round";
+          context.lineWidth = 10;
+              
+          for(var i=0; i < clickX.length; i++) {
+            context.beginPath();
+            if(clickDrag[i] && i){
+              context.moveTo(clickX[i-1], clickY[i-1]);
+            }
+             else{
+              context.moveTo(clickX[i]-1, clickY[i]);
+            }
+            context.lineTo(clickX[i], clickY[i]);
+            context.closePath();
+            context.stroke();
+          }
+        }
+
+        $(canvas).mousedown(function(e){
+          var mouseX = e.pageX - this.offsetLeft;
+          var mouseY = e.pageY - this.offsetTop;
+            
+          paint = true;
+          addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+          redraw();
+        });
+
+        $(canvas).mousemove(function(e){
+          if(paint){
+            addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+            redraw();
+          }
+        });
+
+        $(canvas).mouseup(function(e){
+          paint = false;
+        });
+      }
+    };
+  }])
+  .directive('canvasText', ['CanvasText', function(CanvasText) {
+    var testTextBEM1 = 'c5MQB73bVWP1mV';
+    var testTextBEM2 = 'det2qCvqEVGnQz';
+    var testTextBEM3 = '150pG6KShHn6nk';
     var testTextB = 'dYSk1a9bwDjttV';
     return {
       restrict: 'A',
@@ -19,12 +82,12 @@ angular.module('myApp.directives', []).
 
         function getArticle(data) {
           pcArticle.getArticle(data.articles[0].id, setArticle);
-          // pcArticle.getArticle(testTextBEM, setArticle);
+          // pcArticle.getArticle(testTextBEM1, setArticle);
         }
 
         function setArticle(data) {
           $scope.title = data.article.book.title;
-          console.log(data.article.content);
+          // console.log(data.article.content);
           $scope.text = pcArticle.canvasText(data.article.content);
         }
 
@@ -80,7 +143,6 @@ angular.module('myApp.directives', []).
       }],
       link: function(scope, elem, attr) {
         scope.$watch('text', function(text) {
-          console.log(text);
           if(text) {
             scope.drawCanvasText(elem[0], text);
           }

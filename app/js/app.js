@@ -11,10 +11,33 @@ angular.module('myApp', [
   'drawText'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'ArticleCtrl'});
+  $routeProvider.when('/', {templateUrl: 'partials/partial1.html', controller: 'ArticleCtrl'});
   $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.otherwise({redirectTo: '/'});
 }]);
+
+angular.module('kineticjs', [])
+  .factory('kinetic', ['$document', '$q', '$rootScope', function($document, $q, $rootScope) {
+    var k = $q.defer();
+    function onScriptLoad() {
+      $rootScope.$apply(function() { k.resolve(window.Kinetic); });
+    }
+    var scriptTag = $document[0].createElement('script');
+    scriptTag.type = 'text/javascript';
+    scriptTag.async = true;
+    scriptTag.src = '/app/lib/kinetic/kinetic-v4.7.4.js';
+    scriptTag.onreadystatechange = function() {
+      if (this.readyState === 'complete') onScriptLoad();
+    };
+    scriptTag.onload = onScriptLoad;
+
+    var s = $document[0].getElementsByTagName('body')[0];
+    s.appendChild(scriptTag);
+
+    return {
+      Kinetic: function() { return k.promise; }
+    };
+  }]);
 
 angular.module('drawText', [])
 	.factory('CanvasText', [function() {

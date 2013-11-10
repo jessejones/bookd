@@ -28,3 +28,15 @@
   content: "";
   padding: 0;
 }
+
+#canvas-stage {
+  position: absolute;
+  width: 900px;
+  height: 8500px;
+}
+
+#canvas-text, #blackout-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

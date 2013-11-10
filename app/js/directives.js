@@ -144,7 +144,7 @@ angular.module('myApp.directives', []).
             text: text,
             x: 40,
             y: 40,
-            boxWidth: $(element).width() * 0.9
+            boxWidth: $(element).width() * 0.8
           });
         };
 

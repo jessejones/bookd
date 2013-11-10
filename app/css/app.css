@@ -1,4 +1,8 @@
 /* app css stylesheet */
+body {
+  margin: 0;
+  padding: 0;
+}
 
 .menu {
   list-style: none;
@@ -30,13 +34,34 @@
 }
 
 #canvas-stage {
-  position: absolute;
-  width: 900px;
-  height: 8500px;
+  position: relative;
+  margin: 50px auto;
 }
 
 #canvas-text, #blackout-canvas {
   position: absolute;
   top: 0;
-  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (min-device-width: 768px) {
+  #canvas-stage {
+    width: 800px;
+    height: 800px;
+  }
+}
+
+@media screen and (min-device-width: 480px) and (max-device-width: 767px) {
+  #canvas-stage {
+    width: 600px;
+    height: 500px;
+  }
+}
+
+@media screen and (max-device-width: 479px) {
+  #canvas-stage {
+    width: 300px;
+    min-height: 400px;
+  }
 }

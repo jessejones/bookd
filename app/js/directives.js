@@ -9,7 +9,7 @@ angular.module('myApp.directives', []).
       elm.text(version);
     };
   }])
-  .directive('blackoutCanvas', [function() {
+  .directive('blackoutCanvas', ['$window', function($window) {
     return {
       restrict: 'A',
       link: function(scope, element, attrs) {
@@ -19,6 +19,9 @@ angular.module('myApp.directives', []).
         var clickY = [];
         var clickDrag = [];
         var paint;
+
+        scope.width = $(canvas).width();
+        scope.height = $(canvas).height();
 
         function addClick(x, y, dragging)
         {
@@ -49,17 +52,22 @@ angular.module('myApp.directives', []).
         }
 
         $(canvas).mousedown(function(e){
-          var mouseX = e.pageX - this.offsetLeft;
-          var mouseY = e.pageY - this.offsetTop;
+
+          var parentOffset = $(this).parent().offset();
+          var mouseX = e.pageX - parentOffset.left;
+          var mouseY = e.pageY - parentOffset.top;
             
           paint = true;
-          addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+          addClick(mouseX, mouseY);
           redraw();
         });
 
         $(canvas).mousemove(function(e){
           if(paint){
-            addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+            var parentOffset = $(this).parent().offset();
+            var mouseX = e.pageX - parentOffset.left;
+            var mouseY = e.pageY - parentOffset.top;
+            addClick(mouseX, mouseY, true);
             redraw();
           }
         });
@@ -100,7 +108,7 @@ angular.module('myApp.directives', []).
             canvas: canvas,
             context: context,
             fontFamily: 'Georgia',
-            fontSize: '14px',
+            fontSize: '16px',
             fontWeight: 'normal',
             fontColor: '#000',
             lineHeight: '24'
@@ -118,7 +126,7 @@ angular.module('myApp.directives', []).
 
           ct.defineClass('blockquote', {
             fontFamily: 'Georgia',
-            fontSize: '14px',
+            fontSize: '16px',
             fontStyle: 'italic',
             fontColor: '#000',
             lineHeight: '30'
@@ -126,7 +134,7 @@ angular.module('myApp.directives', []).
 
           ct.defineClass('em', {
             fontFamily: 'Georgia',
-            fontSize: '14px',
+            fontSize: '16px',
             fontStyle: 'italic',
             fontColor: '#000',
             lineHeight: '30'
@@ -136,12 +144,17 @@ angular.module('myApp.directives', []).
             text: text,
             x: 40,
             y: 40,
-            boxWidth: 700
+            boxWidth: $(element).width()
           });
         };
 
       }],
       link: function(scope, elem, attr) {
+        var canvas = elem[0];
+
+        scope.width = $(canvas).width();
+        scope.height = $(canvas).height();
+
         scope.$watch('text', function(text) {
           if(text) {
             scope.drawCanvasText(elem[0], text);

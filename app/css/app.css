@@ -61,7 +61,7 @@ body {
 
 @media screen and (max-device-width: 479px) {
   #canvas-stage {
-    width: 270px;
+    width: 300px;
     min-height: 400px;
   }
 }

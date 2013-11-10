@@ -119,7 +119,7 @@ angular.module('myApp.directives', []).
 
           ct.defineClass('h2', {
             fontFamily: 'Georgia',
-            fontSize: '16px',
+            fontSize: '22px',
             fontWeight: 'normal',
             fontColor: '#000',
             lineHeight: '30'

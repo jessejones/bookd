@@ -3,163 +3,165 @@
 /* Directives */
 
 
-angular.module('myApp.directives', []).
-  directive('appVersion', ['version', function(version) {
-    return function(scope, elm, attrs) {
-      elm.text(version);
+angular.module('bookd.directives', [])
+  .directive('blackoutEdit', [function() {
+    return {
+      restrict: 'C',
+      scope: true,
+      link: function(scope, element, attrs) {
+        var $canvas = element.find('canvas.blackout-canvas');
+        var context = $canvas[0].getContext('2d');
+
+        scope.save = function() {
+          html2canvas(element.find('.blackout-board')[0], {
+            onrendered: function(canvas) {
+              scope.$emit('save', canvas.toDataURL());
+            }
+          });
+        };
+
+        scope.setCurTool = function(tool) {
+          scope.curTool = tool;
+        };
+
+        scope.$on('clear', function() {
+          context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+        });
+
+        scope.$watch('curTool', function(curTool) {
+          if(curTool) {
+            scope.setCurTool(curTool);
+          }
+          else {
+            scope.setCurTool('marker');
+          }
+        });
+      }
+    };
+  }])
+  .directive('blackoutShare', [function() {
+    return {
+      restrict: 'C',
+      scope: true,
+      link: function(scope, element, attrs) {
+      }
+    };
+  }])
+  .directive('blackoutBoard', [function() {
+    return {
+      restrict: 'C',
+      link: function(scope, element, attrs) {
+        var element = element[0];
+        scope.width = element.offsetWidth;
+        scope.height = element.offsetHeight;
+      }
     };
   }])
   .directive('blackoutCanvas', ['$window', function($window) {
     return {
-      restrict: 'A',
+      restrict: 'C',
       link: function(scope, element, attrs) {
-        var canvas = element[0];
-        var context = canvas.getContext('2d');
-        var clickX = [];
-        var clickY = [];
-        var clickDrag = [];
+        var $canvas = element;
+        var context = element[0].getContext('2d');
+        var lastX;
+        var lastY;
         var paint;
 
-        scope.width = $(canvas).width();
-        scope.height = $(canvas).height();
+        $canvas.width(scope.width);
+        $canvas.height(scope.height);
 
-        function addClick(x, y, dragging)
-        {
-          clickX.push(x);
-          clickY.push(y);
-          clickDrag.push(dragging);
+        function saveLast(x, y) {
+          lastX = x;
+          lastY = y;
         }
 
-        function redraw(){
-          context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
-          
-          context.strokeStyle = "#000";
-          context.lineJoin = "round";
-          context.lineWidth = 10;
+        function redraw(toX, toY, dragging) {
+          context.beginPath();
+          if(dragging) {
+            if(scope.curTool === "marker") {
+              context.globalCompositeOperation = "source-over";
+              context.strokeStyle = "#000";
+              context.lineCap = "round";
+              context.lineWidth = 10;
+            }
+            else {
+              context.globalCompositeOperation = "destination-out";
+            }
               
-          for(var i=0; i < clickX.length; i++) {
-            context.beginPath();
-            if(clickDrag[i] && i){
-              context.moveTo(clickX[i-1], clickY[i-1]);
-            }
-             else{
-              context.moveTo(clickX[i]-1, clickY[i]);
-            }
-            context.lineTo(clickX[i], clickY[i]);
-            context.closePath();
+            context.moveTo(lastX, lastY);
+            context.lineTo(toX, toY);
             context.stroke();
+            saveLast(toX, toY);
           }
         }
 
-        $(canvas).mousedown(function(e){
-
+        var onMousedown = function(e) {
           var parentOffset = $(this).parent().offset();
           var mouseX = e.pageX - parentOffset.left;
           var mouseY = e.pageY - parentOffset.top;
             
           paint = true;
-          addClick(mouseX, mouseY);
+          saveLast(mouseX, mouseY);
           redraw();
-        });
+        };
 
-        $(canvas).mousemove(function(e){
+        var onMousemove = function(e) {
           if(paint){
             var parentOffset = $(this).parent().offset();
             var mouseX = e.pageX - parentOffset.left;
             var mouseY = e.pageY - parentOffset.top;
-            addClick(mouseX, mouseY, true);
-            redraw();
+            redraw(mouseX, mouseY, true);
           }
-        });
+        };
 
-        $(canvas).mouseup(function(e){
+        var onTouchstart = function(e) {
+          e.preventDefault();
+          var touches = e.originalEvent.changedTouches;
+
+          var parentOffset = $(this).parent().offset();
+          var mouseX = touches[0].pageX - parentOffset.left;
+          var mouseY = touches[0].pageY - parentOffset.top;
+          paint = true;
+          saveLast(mouseX, mouseY);
+        };
+
+        var onTouchmove = function(e) {
+          e.preventDefault();
+          var touches = e.originalEvent.changedTouches;
+          if(paint) {
+            var parentOffset = $(this).parent().offset();
+            var linetoX = touches[0].pageX - parentOffset.left;
+            var linetoY = touches[0].pageY - parentOffset.top;
+            redraw(linetoX, linetoY, true);
+          }
+        };
+
+        var onUp = function(e) {
           paint = false;
-        });
+        };
+
+        $canvas.mousedown(onMousedown);
+        $canvas.mousemove(onMousemove);
+        $canvas.mouseup(onUp);
+        $canvas.bind('touchstart', onTouchstart);
+        $canvas.bind('touchmove', onTouchmove);
+        $canvas.bind('touchend', onUp);
       }
     };
   }])
-  .directive('canvasText', ['CanvasText', function(CanvasText) {
-    var testTextBEM1 = 'c5MQB73bVWP1mV';
-    var testTextBEM2 = 'det2qCvqEVGnQz';
-    var testTextBEM3 = '150pG6KShHn6nk';
-    var testTextB = 'dYSk1a9bwDjttV';
+  .directive('textJump', ['util', function(util) {
     return {
       restrict: 'A',
-      controller: ['$scope', 'pcArticle', function($scope, pcArticle) {
-        pcArticle.chooseArticle(getArticle);
-
-        function getArticle(data) {
-          pcArticle.getArticle(data.articles[0].id, setArticle);
-          // pcArticle.getArticle(testTextBEM1, setArticle);
-        }
-
-        function setArticle(data) {
-          $scope.title = data.article.book.title;
-          // console.log(data.article.content);
-          $scope.text = pcArticle.canvasText(data.article.content);
-        }
-
-        $scope.drawCanvasText = function(element, text) {
-          var ct = new CanvasText();
-          var canvas = element;
-          var context = canvas.getContext('2d');
-          var parentOffset = $(element).parent().offset();
-
-          ct.config({
-            canvas: canvas,
-            context: context,
-            fontFamily: 'Georgia',
-            fontSize: '16px',
-            fontWeight: 'normal',
-            fontColor: '#000',
-            lineHeight: '24'
-          });
-
-          // ct.defineClass('', {});
-
-          ct.defineClass('h2', {
-            fontFamily: 'Georgia',
-            fontSize: '22px',
-            fontWeight: 'normal',
-            fontColor: '#000',
-            lineHeight: '30'
-          });
-
-          ct.defineClass('blockquote', {
-            fontFamily: 'Georgia',
-            fontSize: '16px',
-            fontStyle: 'italic',
-            fontColor: '#000',
-            lineHeight: '30'
-          });
-
-          ct.defineClass('em', {
-            fontFamily: 'Georgia',
-            fontSize: '16px',
-            fontStyle: 'italic',
-            fontColor: '#000',
-            lineHeight: '30'
-          });
-
-          ct.drawText({
-            text: text,
-            x: $(element).width() * 0.2 / 2,
-            y: parentOffset.top,
-            boxWidth: $(element).width() * 0.8
-          });
-        };
-
-      }],
-      link: function(scope, elem, attr) {
-        var canvas = elem[0];
-
-        scope.width = $(canvas).width();
-        scope.height = $(canvas).height();
-
-        scope.$watch('text', function(text) {
-          if(text) {
-            scope.drawCanvasText(elem[0], text);
-          }
+      scope: {
+        content: '=ngBindHtml'
+      },
+      link: function(scope, element, attr) {
+        scope.$watch('content', function() {
+          var parentHeight = scope.$parent.height;
+          var fullHeight = element[0].offsetHeight;
+          var top = element.parent()[0].offsetTop;
+          var offset = (fullHeight > parentHeight) ? util.random(0, fullHeight - parentHeight) : 0;
+          element.offset({top: -offset + top});
         });
       }
     };

@@ -1,0 +1,29 @@
+<div ng-controller="BlackoutCtrl">
+
+  <h1>{{ source.title }}</h1>
+
+  <div class="blackout-edit" ng-show="mode === 'edit'">
+    <div class="controls">
+      <button ng-click="save()">Save</button>
+      <button ng-click="setCurTool('marker')">Marker</button>
+      <button ng-click="setCurTool('eraser')">Eraser</button>
+      <button ng-click="clear()">Clear</button>
+      <button ng-click="startNew()">New</button>
+    </div>
+
+    <div class="blackout-board">
+      <div class="blackout-source" ng-bind-html="source.content" text-jump></div>
+      <canvas class="blackout-canvas" width="{{ width }}" height="{{ height }}"></canvas>
+    </div>
+  </div>
+
+  <div class="blackout-share" ng-show="mode === 'share'">
+    <div class="controls">
+      <button ng-click="edit()">Back</button>
+      <button ng-click="startNew()">New</button>
+    </div>
+    <br><br><br>
+    <center><img ng-src="{{ blackoutImage }}"></center>
+  </div>
+
+</div>

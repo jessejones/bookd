@@ -47,6 +47,6 @@ body {
 @media screen and (max-device-width: 479px) {
   .blackout-board {
     width: 300px;
-    min-height: 400px;
+    height: 400px;
   }
 }

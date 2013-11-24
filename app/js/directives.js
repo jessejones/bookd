@@ -15,7 +15,7 @@ angular.module('bookd.directives', [])
         scope.save = function() {
           html2canvas(element.find('.blackout-board')[0], {
             onrendered: function(canvas) {
-              scope.$emit('save', canvas.toDataURL());
+              scope.$emit('save', canvas.toDataURL('image/png'));
             }
           });
         };

@@ -42,4 +42,33 @@ angular.module('bookd.services', [])
     return {
       randomArticle: randomArticle
     };
+  }])
+  .factory('credentials', ['$window', function credentialServiceFactory($window) {
+
+    function get(provider) {
+      return $window.sessionStorage[provider + 'Cred'];
+    }
+
+    function set(provider, cred) {
+      var value = JSON.stringify(cred);
+      $window.sessionStorage[provider + 'Cred'] = value;
+    }
+
+    return {
+      get: get,
+      set: set
+    };
+  }])
+  .factory('share', ['$http', function shareServiceFactory($http) {
+    function post(data) {
+      $http.post('/api/share', data).success(success);
+    }
+
+    function success(data) {
+      console.log(data);
+    }
+
+    return {
+      post: post
+    };
   }]);

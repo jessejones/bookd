@@ -3,29 +3,16 @@
  */
 
 var request = require('request');
-var qs = require('querystring');
 var fs = require('fs');
 var q = require('q');
-
-// var parseDataURI = function(uri) {
-//   var data = uri.replace(/^data:img\/png;base64,/, '');
-//   return new Buffer(data, 'base64');
-// };
+var social = require('./socialoauth');
 
 var toTwitter = function(oauth_token, oauth_token_secret, input) {
   var url = 'https://api.twitter.com/1.1/statuses/update_with_media.json';
-  var oauth = {
-    consumer_key: 'xrl36Mmyeui5z0r9OJK1Jg',
-    consumer_secret: 'VAIw1WrBhUVhfExx1fMO6W2Rav4Dz9zwP8dwdszZk',
-    token: oauth_token,
-    token_secret: oauth_token_secret,
-    version: '1.0',
-  };
-  var params = {
-    include_entities: true,
-    status: input.status
-  };
-  // url += '?' + qs.stringify(params);
+  var t = social.Twitter;
+  var oauth = t.oauth;
+  oauth.token = oauth_token;
+  oauth.token_secret = oauth_token_secret;
   var headers = {
     'content-type': 'multipart/form-data'
   };
@@ -37,7 +24,7 @@ var toTwitter = function(oauth_token, oauth_token_secret, input) {
     {
       'Content-Disposition': 'form-data; name="media[]"',
       'Content-Type': 'application/octet-stream;',
-      body: new Buffer(input['media[]'].replace(/^data:image\/png;base64,/, ''), 'base64')
+      body: new Buffer(input.media.replace(/^data:image\/png;base64,/, ''), 'base64')
     }
   ];
   var deferred = q.defer();
@@ -56,7 +43,8 @@ var toTwitter = function(oauth_token, oauth_token_secret, input) {
 
 exports.share = function (req, res) {
   var data = req.body;
+  var auth = req.session.auth;
 
-  toTwitter(data.oauth_token, data.oauth_token_secret, data.input)
-  .then(function(response) { res.send(response); });
+  toTwitter(auth.oauth_token, auth.oauth_token_secret, data)
+    .then(function(response) { res.send(response); });
 };

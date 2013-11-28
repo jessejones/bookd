@@ -9,7 +9,7 @@ var Twitter = (function() {
   var oauth = { consumer_key:consumer_key, consumer_secret:consumer_secret, version:version };
 
   function getRequestToken() {
-    oauth.callback = 'http://10.0.0.5:3000/oauth-complete/twitter';
+    oauth.callback = 'http://bookd.herokuapp.com/oauth-complete/twitter';
     var deferred = q.defer();
     var url = 'https://api.twitter.com/oauth/request_token';
 

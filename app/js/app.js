@@ -8,20 +8,11 @@ angular.module('bookd', [
   'bookd.filters',
   'bookd.services',
   'bookd.directives',
-  'bookd.controllers',
-  'oauth.io'
+  'bookd.controllers'
 ]).
-config(['$routeProvider', 'OAuthProvider', function($routeProvider, OAuthProvider) {
-  $routeProvider.when('/', {templateUrl: 'partials/blackout.html', controller: 'BlackoutCtrl'});
-  $routeProvider.otherwise({redirectTo: '/'});
-
-  OAuthProvider.setPublicKey('BzEOe8jjOVbv3wnAil2s-7-HirM');
-  OAuthProvider.setHandler('twitter', ['OAuthData', 'credentials', function(OAuthData, credentials) {
-  	var cred = {
-  		token: OAuthData.result.oauth_token,
-  		secret: OAuthData.result.oauth_token_secret
-  	};
-
-  	credentials.set('twitter', cred);
-  }]);
+config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+  $routeProvider.when('/', {templateUrl: '/partials/blackout.html', controller: 'BlackoutCtrl'})
+  .when('/share/:provider', {templateUrl: '/partials/share.html', controller: 'ShareCtrl'})
+  .otherwise({redirectTo: '/'});
+  $locationProvider.html5Mode(true).hashPrefix('!');
 }]);

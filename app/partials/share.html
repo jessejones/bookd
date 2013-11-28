@@ -1,0 +1,9 @@
+<div ng-controller="ShareCtrl">
+  <p ng-show="message">{{ message }}</p>
+  <form ng-show="edit">
+    <textarea ng-model="input.status" cols="100" rows="3" maxlength="117" required autofocus></textarea>
+    <br>
+    <button ng-click="post()">Tweet</button>
+  </form>
+  <img ng-src="{{ input.media }}" width="300">
+</div>

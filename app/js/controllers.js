@@ -72,8 +72,6 @@ angular.module('bookd.controllers', [])
              .then(function(data) {
                $scope.edit = false;
                $scope.message = 'You tweeted: ' + data.text;
-               share.storeMedia(false);
-               share.storeMessage(false);
                $window.setTimeout(function() {
                  $window.close();
                }, 5000);

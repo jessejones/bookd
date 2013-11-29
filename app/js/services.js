@@ -92,39 +92,19 @@ angular.module('bookd.services', [])
       }
 
       function storeMedia(data) {
-        if ($window.opener) {
-          $window.opener.localStorage.image = data;
-        }
-        else {
-          $window.localStorage.image = data;
-        }
+        $window.localStorage.image = data;
       }
 
       function getMedia() {
-        if ($window.opener) {
-          return $window.opener.localStorage.image;
-        }
-        else {
-          return $window.localStorage.image;
-        }
+        return $window.localStorage.image;
       }
 
       function storeMessage(msg) {
-        if ($window.opener) {
-          $window.opener.localStorage.message = msg;
-        }
-        else {
-          $window.localStorage.message = msg;
-        }
+        $window.localStorage.message = msg;
       }
 
       function getMessage() {
-        if ($window.opener) {
-          return $window.opener.localStorage.message;
-        }
-        else {
-          return $window.localStorage.message;
-        }
+        return $window.localStorage.message;
       }
 
       return {
@@ -132,7 +112,7 @@ angular.module('bookd.services', [])
         storeMedia: storeMedia,
         getMedia: getMedia,
         storeMessage: storeMessage,
-        getMessage: getMessage
+        getMessage: getMessage,
       };
     }
   ]);

@@ -7,31 +7,12 @@ angular.module('bookd.services', [])
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    function popup(url, title, options) {
-      var wnd_settings = {
-        width: Math.floor($window.outerWidth * 0.8),
-        height: Math.floor($window.outerHeight * 0.5)
-      };
-      if (wnd_settings.height < 350)
-        wnd_settings.height = 350;
-      if (wnd_settings.width < 800)
-        wnd_settings.width = 800;
-      wnd_settings.left = $window.screenX + ($window.outerWidth - wnd_settings.width) / 2;
-      wnd_settings.top = $window.screenY + ($window.outerHeight - wnd_settings.height) / 8;
-      var wnd_options = "width=" + wnd_settings.width + ",height=" + wnd_settings.height;
-      wnd_options += "scrollbars=1,status=1,resizable=1";
-      wnd_options += ",left=" + wnd_settings.left + ",top=" + wnd_settings.top;
-
-      $window.open(url, title, options || wnd_options);
-    }
-
     function toTitleCase(str) {
       str.charAt(0).toUpperCase() + Str.substr(1);
     }
 
     return {
       random: random,
-      popup: popup,
       toTitleCase: toTitleCase
     };
   }])
@@ -67,52 +48,4 @@ angular.module('bookd.services', [])
     return {
       randomArticle: randomArticle
     };
-  }])
-  .factory('credentials', ['$window', 'util', function credentialServiceFactory($window, util) {
-
-    function popup(provider) {
-      util.popup('/signin/' + provider, 'Authorize Bookd');
-    }
-
-    return {
-      popup: popup
-    };
-  }])
-  .factory('share', [
-    '$http',
-    '$window',
-    '$q',
-    'util',
-    function shareServiceFactory($http, $window, $q, util) {
-      function post(data) {
-        var deferred = $q.defer();
-        $http.post('/api/share', data)
-             .success(function(data) { deferred.resolve(data); });
-        return deferred.promise;
-      }
-
-      function storeMedia(data) {
-        $window.localStorage.image = data;
-      }
-
-      function getMedia() {
-        return $window.localStorage.image;
-      }
-
-      function storeMessage(msg) {
-        $window.localStorage.message = msg;
-      }
-
-      function getMessage() {
-        return $window.localStorage.message;
-      }
-
-      return {
-        post: post,
-        storeMedia: storeMedia,
-        getMedia: getMedia,
-        storeMessage: storeMessage,
-        getMessage: getMessage,
-      };
-    }
-  ]);
+  }]);

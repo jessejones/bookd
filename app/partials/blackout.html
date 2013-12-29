@@ -4,7 +4,7 @@
 
   <div class="blackout-edit" ng-show="mode === 'edit'">
     <div class="controls">
-      <button ng-click="save()">Save</button>
+      <button ng-click="save()">Finish</button>
       <button ng-click="setCurTool('marker')">Marker</button>
       <button ng-click="setCurTool('eraser')">Eraser</button>
       <button ng-click="clear()">Clear</button>
@@ -17,11 +17,10 @@
     </div>
   </div>
 
-  <div class="blackout-share" ng-show="mode === 'share'">
+  <div class="blackout-save" ng-show="mode === 'save'">
     <div class="controls">
       <button ng-click="edit()">Back</button>
       <button ng-click="startNew()">New</button>
-      <button ng-click="share()">Share on Twitter</button>
     </div>
     <br><br><br>
     <center><img ng-src="{{ blackoutImage }}"></center>

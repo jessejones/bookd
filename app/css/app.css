@@ -2,6 +2,7 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #FFF8E7;
 }
 
 .controls {
@@ -24,6 +25,12 @@ body {
   height: 100%;
 }
 
+.blackout-source {
+  text-align: justify;
+  margin-right: 12px;
+  margin-left: 12px;
+}
+
 @media screen and (min-device-width: 768px) {
   .blackout-board {
     width: 800px;
@@ -32,8 +39,22 @@ body {
 
   .blackout-source {
     font-size: 18px;
+  }
+}
+
+@media screen and (min-device-width: 480px) {
+  .blackout-source {
     margin-right: 50px;
     margin-left: 50px;
+       -moz-column-count: 2;
+    -webkit-column-count: 2;
+            column-count: 2;
+       -moz-column-gap: 50px;
+    -webkit-column-gap: 50px;
+            column-gap: 50px;
+       -moz-column-fill: auto;
+    -webkit-column-fill: auto;
+            column-fill: auto;
   }
 }
 

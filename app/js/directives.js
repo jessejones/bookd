@@ -39,14 +39,6 @@ angular.module('bookd.directives', [])
       }
     };
   }])
-  .directive('blackoutShare', [function() {
-    return {
-      restrict: 'C',
-      scope: true,
-      link: function(scope, element, attrs) {
-      }
-    };
-  }])
   .directive('blackoutBoard', [function() {
     return {
       restrict: 'C',

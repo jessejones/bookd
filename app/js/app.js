@@ -5,7 +5,6 @@
 angular.module('bookd', [
   'ngRoute',
   'ngSanitize',
-  'bookd.filters',
   'bookd.services',
   'bookd.directives',
   'bookd.controllers'

@@ -15,7 +15,14 @@ body {
   background-color: #fff;
   overflow: hidden;
   position: relative;
+}
+
+.blackout-board, .blackout-image {
   margin: 50px auto;
+}
+
+.blackout-image {
+  text-align: center;
 }
 
 .blackout-canvas {

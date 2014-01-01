@@ -59,9 +59,6 @@ body {
        -moz-column-gap: 50px;
     -webkit-column-gap: 50px;
             column-gap: 50px;
-       -moz-column-fill: auto;
-    -webkit-column-fill: auto;
-            column-fill: auto;
   }
 }
 

@@ -40,6 +40,9 @@ body {
   text-align: justify;
   margin-right: 12px;
   margin-left: 12px;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 @media screen and (min-device-width: 768px) {

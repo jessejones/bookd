@@ -149,11 +149,14 @@ angular.module('bookd.directives', [])
       },
       link: function(scope, element, attr) {
         scope.$watch('content', function() {
+          var $parent = element.parent();
+
+          element.height('auto');
           var parentHeight = scope.$parent.height;
           var lineHeight = parseInt($('.blackout-source p').css('line-height'));
           var fullHeight = Math.floor(element[0].offsetHeight / lineHeight) * lineHeight;
           element.height(fullHeight);
-          var start = element.parent()[0].offsetTop;
+          var start = $parent[0].offsetTop; //+ parseInt($parent.css('borderTopWidth'));
           var offset = (fullHeight > parentHeight) ? util.random(0, fullHeight - parentHeight) : 0;
           offset = Math.floor(offset / lineHeight) * lineHeight;
           element.offset({top: start - offset});

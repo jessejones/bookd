@@ -11,6 +11,7 @@
 
     <h1 class="source-title">{{ source.title }}</h1>
     <div class="blackout-board">
+      <div class="blackout-frame"></div>
       <div class="blackout-source" ng-bind-html="source.content" text-jump></div>
       <canvas class="blackout-canvas" width="{{ width }}" height="{{ height }}"></canvas>
     </div>

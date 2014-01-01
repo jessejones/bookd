@@ -149,6 +149,7 @@ angular.module('bookd.directives', [])
       },
       link: function(scope, element, attr) {
         scope.$watch('content', function() {
+          element.height('auto');
           var parentHeight = scope.$parent.height;
           var lineHeight = parseInt($('.blackout-source p').css('line-height'));
           var fullHeight = Math.floor(element[0].offsetHeight / lineHeight) * lineHeight;

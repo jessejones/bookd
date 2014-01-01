@@ -87,6 +87,14 @@ body {
   text-align: left;
 }
 
+.blackout-board {
+     -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+  border-top: 21px solid white;
+  border-bottom: 21px solid white;
+}
+
 @media screen and (min-device-width: 768px) {
   body {
     font-size: 16px;
@@ -98,6 +106,8 @@ body {
 
   .blackout-board {
     height: 792px;
+    border-top: 72px solid white;
+    border-bottom: 72px solid white;
   }
 
   .blackout-source p,
@@ -146,5 +156,7 @@ body {
 
   .blackout-board {
     height: 504px;
+    border-top: 63px solid white;
+    border-bottom: 63px solid white;
   }
 }

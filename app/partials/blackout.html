@@ -1,7 +1,5 @@
 <div ng-controller="BlackoutCtrl">
 
-  <h1>{{ source.title }}</h1>
-
   <div class="blackout-edit" ng-show="mode === 'edit'">
     <div class="controls">
       <button ng-click="save()">Finish</button>
@@ -11,6 +9,7 @@
       <button ng-click="startNew()">New</button>
     </div>
 
+    <h1 class="source-title">{{ source.title }}</h1>
     <div class="blackout-board">
       <div class="blackout-source" ng-bind-html="source.content" text-jump></div>
       <canvas class="blackout-canvas" width="{{ width }}" height="{{ height }}"></canvas>

@@ -6,9 +6,13 @@ body {
 }
 
 .controls {
-  margin: 0 auto;
   text-align: center;
-  width: 300px;
+  margin-top: 50px;
+}
+
+.source-title {
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .blackout-board {
@@ -18,7 +22,7 @@ body {
 }
 
 .blackout-board, .blackout-image {
-  margin: 50px auto;
+  margin: 0 auto 50px auto;
 }
 
 .blackout-image {
@@ -39,8 +43,10 @@ body {
 }
 
 @media screen and (min-device-width: 768px) {
-  .blackout-board {
+  .blackout-board, .source-title {
     width: 800px;
+  }
+  .blackout-board {
     height: 800px;
   }
 
@@ -63,15 +69,21 @@ body {
 }
 
 @media screen and (min-device-width: 480px) and (max-device-width: 767px) {
-  .blackout-board {
+  .blackout-board, .source-title {
     width: 600px;
+  }
+
+  .blackout-board {
     height: 500px;
   }
 }
 
 @media screen and (max-device-width: 479px) {
-  .blackout-board {
+  .blackout-board, .source-title {
     width: 300px;
+  }
+
+  .blackout-board {
     height: 400px;
   }
 }

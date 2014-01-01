@@ -150,10 +150,13 @@ angular.module('bookd.directives', [])
       link: function(scope, element, attr) {
         scope.$watch('content', function() {
           var parentHeight = scope.$parent.height;
-          var fullHeight = element[0].offsetHeight;
-          var top = element.parent()[0].offsetTop;
+          var lineHeight = parseInt($('.blackout-source p').css('line-height'));
+          var fullHeight = Math.floor(element[0].offsetHeight / lineHeight) * lineHeight;
+          element.height(fullHeight);
+          var start = element.parent()[0].offsetTop;
           var offset = (fullHeight > parentHeight) ? util.random(0, fullHeight - parentHeight) : 0;
-          element.offset({top: -offset + top});
+          offset = Math.floor(offset / lineHeight) * lineHeight;
+          element.offset({top: start - offset});
         });
       }
     };

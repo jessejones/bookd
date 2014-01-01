@@ -1,8 +1,12 @@
+@import url(http://fonts.googleapis.com/css?family=Volkhov:400,400italic,700,700italic);
+
 /* app css stylesheet */
 body {
   margin: 0;
   padding: 0;
   background-color: #FFF8E7;
+  font-family: Volkhov, Georgia, serif;
+  font-size: 14px;
 }
 
 .controls {
@@ -53,16 +57,69 @@ body {
   -webkit-user-select: none;
 }
 
+.blackout-board, .source-title {
+  width: 294px;
+}
+
+.blackout-board {
+  height: 400px;
+}
+
+.blackout-source p,
+.blackout-source div,
+.blackout-source blockquote {
+  line-height: 1.5em;
+  line-height: calc((21 * 1em) / 14);
+  margin-top: calc((21 * 1em) / 14);
+  margin-bottom: calc((21 * 1em) / 14);
+}
+
+.blackout-source img {
+  display: none;
+}
+
+.blackout-source h2 {
+  font-size: 28px;
+  line-height: 1.5em;
+  line-height: calc(42 * 1em / 28);
+  margin-top: calc((21 * 1em) / 28);
+  margin-bottom: calc((21 * 1em) / (28 * 2));
+  text-align: left;
+}
+
 @media screen and (min-device-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+
   .blackout-board, .source-title {
     width: 800px;
   }
+
   .blackout-board {
-    height: 800px;
+    height: 792px;
   }
 
-  .blackout-source {
-    font-size: 18px;
+  .blackout-source p,
+  .blackout-source div,
+  .blackout-source blockquote {
+    line-height: 1.5em;
+    line-height: calc((24 * 1em) / 16);
+    margin-top: calc((24 * 1em) / 16);
+    margin-bottom: calc((24 * 1em) / 16);
+  }
+
+  .blackout-source img {
+    display: none;
+  }
+
+  .blackout-source h2 {
+    font-size: 32px;
+    line-height: 1.5em;
+    line-height: calc(48 * 1em / 32);
+    margin-top: calc((24 * 1em) / 32);
+    margin-bottom: calc((24 * 1em) / (32 * 2));
+    text-align: left;
   }
 }
 
@@ -76,6 +133,9 @@ body {
        -moz-column-gap: 50px;
     -webkit-column-gap: 50px;
             column-gap: 50px;
+       -moz-column-fill: balance;
+    -webkit-column-fill: balance;
+            column-fill: balance;
   }
 }
 
@@ -85,16 +145,6 @@ body {
   }
 
   .blackout-board {
-    height: 500px;
-  }
-}
-
-@media screen and (max-device-width: 479px) {
-  .blackout-board, .source-title {
-    width: 300px;
-  }
-
-  .blackout-board {
-    height: 400px;
+    height: 504px;
   }
 }

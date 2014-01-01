@@ -10,6 +10,10 @@ body {
   margin-top: 50px;
 }
 
+.current-tool {
+  border: 1px solid #000;
+}
+
 .source-title {
   margin-right: auto;
   margin-left: auto;

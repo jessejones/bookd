@@ -3,8 +3,8 @@
   <div class="blackout-edit" ng-show="mode === 'edit'">
     <div class="controls">
       <button ng-click="save()">Finish</button>
-      <button ng-click="setCurTool('marker')">Marker</button>
-      <button ng-click="setCurTool('eraser')">Eraser</button>
+      <button ng-click="setCurTool('marker')" class="{{ curTool === 'marker' ? 'current-tool' : '' }}">Marker</button>
+      <button ng-click="setCurTool('eraser')" class="{{ curTool === 'eraser' ? 'current-tool' : '' }}">Eraser</button>
       <button ng-click="clear()">Clear</button>
       <button ng-click="startNew()">New</button>
     </div>

@@ -74,7 +74,7 @@ angular.module('bookd.directives', [])
               context.globalCompositeOperation = "source-over";
               context.strokeStyle = "#000";
               context.lineCap = "round";
-              context.lineWidth = 10;
+              context.lineWidth = parseInt(element.css('fontSize')) - 2;
             }
             else {
               context.globalCompositeOperation = "destination-out";

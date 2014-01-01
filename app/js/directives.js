@@ -13,7 +13,7 @@ angular.module('bookd.directives', [])
         var context = $canvas[0].getContext('2d');
 
         scope.save = function() {
-          html2canvas(element.find('.blackout-board')[0], {
+          html2canvas($('.blackout-board')[0], {
             onrendered: function(canvas) {
               scope.$emit('save', canvas.toDataURL('image/png'));
             }

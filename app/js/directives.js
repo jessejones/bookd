@@ -155,7 +155,7 @@ angular.module('bookd.directives', [])
           var lineHeight = parseInt($('.blackout-source p').css('line-height'));
           var fullHeight = Math.floor(element[0].offsetHeight / lineHeight) * lineHeight;
           element.height(fullHeight);
-          var start = $parent[0].offsetTop + parseInt($parent.css('borderTopWidth'));
+          var start = $parent[0].offsetTop + parseInt($('.blackout-frame').css('borderTopWidth'));
           var offset = (fullHeight > parentHeight) ? util.random(0, fullHeight - parentHeight) : 0;
           offset = Math.floor(offset / lineHeight) * lineHeight;
           element.offset({top: start - offset});

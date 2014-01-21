@@ -2,4 +2,6 @@
 logs/*
 !.gitkeep
 node_modules/
-.DS_STORE
+tmp
+.DS_Store
+.idea

@@ -55,37 +55,51 @@ angular.module('bookd.directives', [])
       link: function(scope, element, attrs) {
         var $canvas = element;
         var context = element[0].getContext('2d');
-        var lastX;
-        var lastY;
-        var paint;
+        var stroke = null;
+        var paint = null;
 
-        $canvas.width(scope.width);
-        $canvas.height(scope.height);
+        // shim layer with setTimeout fallback
+        $window.requestAnimFrame = (function(){
+          return  $window.requestAnimationFrame ||
+            $window.webkitRequestAnimationFrame ||
+            function( callback ){$window.setTimeout(callback, 1000 / 60);};
+        })();
 
-        function saveLast(x, y) {
-          lastX = x;
-          lastY = y;
+        function Point(x, y) {
+          this.x = x;
+          this.y = y;
         }
 
-        function redraw(toX, toY, dragging) {
+        function Stroke(x, y) {
+          this.points = [new Point(x, y)];
+        }
+
+        Stroke.prototype.addPoint = function(x, y) {
+          this.points.push(new Point(x, y));
+        };
+
+        Stroke.prototype.draw = function() {
+          if (this.points.length < 2) return;
+
           context.beginPath();
-          if(dragging) {
-            if(scope.curTool === "marker") {
-              context.globalCompositeOperation = "source-over";
-              context.strokeStyle = "#000";
-              context.lineCap = "round";
-              context.lineWidth = parseInt(element.css('fontSize')) - 2;
-            }
-            else {
-              context.globalCompositeOperation = "destination-out";
-            }
-              
-            context.moveTo(lastX, lastY);
-            context.lineTo(toX, toY);
-            context.stroke();
-            saveLast(toX, toY);
+          if(scope.curTool === "marker") {
+            context.globalCompositeOperation = "source-over";
+            context.strokeStyle = "#000";
+            context.lineCap = "round";
+            context.lineWidth = parseInt(element.css('fontSize')) - 2;
           }
-        }
+          else {
+            context.globalCompositeOperation = "destination-out";
+          }
+
+          context.moveTo(this.points[0].x, this.points[0].y);
+          for (var i = 1; i < this.points.length; i++) {
+            context.lineTo(this.points[i].x, this.points[i].y);
+          }
+          context.stroke();
+          context.closePath();
+          this.points = this.points.slice(-1);
+        };
 
         var onMousedown = function(e) {
           var parentOffset = $(this).parent().offset();
@@ -93,17 +107,37 @@ angular.module('bookd.directives', [])
           var mouseY = e.pageY - parentOffset.top;
             
           paint = true;
-          saveLast(mouseX, mouseY);
-          redraw();
+          stroke = new Stroke(mouseX, mouseY);
+
+          $canvas.bind('mousemove', onMousemove);
+          $canvas.bind('mouseenter', onMouseenter);
+          $canvas.bind('mouseout', onMouseup);
+          $(document).bind('mouseup', onMouseup);
+        };
+
+        var onMouseenter = function(e) {
+          if (paint) {
+            $canvas.trigger('mousedown');
+          }
         };
 
         var onMousemove = function(e) {
-          if(paint){
+          if (paint) {
             var parentOffset = $(this).parent().offset();
             var mouseX = e.pageX - parentOffset.left;
             var mouseY = e.pageY - parentOffset.top;
-            redraw(mouseX, mouseY, true);
+            stroke.addPoint(mouseX, mouseY);
           }
+        };
+
+        var onMouseup = function(e) {
+          if (e.type === 'mouseup') {
+            paint = false;
+            stroke = null;
+            $(document).unbind('mouseup', onMouseup);
+            $canvas.unbind('mouseenter', onMouseenter);
+          }
+          $canvas.unbind('mousemove', onMousemove);
         };
 
         var onTouchstart = function(e) {
@@ -114,7 +148,7 @@ angular.module('bookd.directives', [])
           var mouseX = touches[0].pageX - parentOffset.left;
           var mouseY = touches[0].pageY - parentOffset.top;
           paint = true;
-          saveLast(mouseX, mouseY);
+          stroke = new Stroke(mouseX, mouseY);
         };
 
         var onTouchmove = function(e) {
@@ -124,7 +158,7 @@ angular.module('bookd.directives', [])
             var parentOffset = $(this).parent().offset();
             var linetoX = touches[0].pageX - parentOffset.left;
             var linetoY = touches[0].pageY - parentOffset.top;
-            redraw(linetoX, linetoY, true);
+            stroke.addPoint(linetoX, linetoY);
           }
         };
 
@@ -132,9 +166,16 @@ angular.module('bookd.directives', [])
           paint = false;
         };
 
+        function drawPoints() {
+          if (stroke) {
+            stroke.draw();
+          }
+
+          requestAnimFrame(drawPoints);
+        }
+
         $canvas.mousedown(onMousedown);
-        $canvas.mousemove(onMousemove);
-        $canvas.mouseup(onUp);
+        requestAnimFrame(drawPoints);
         $canvas.bind('touchstart', onTouchstart);
         $canvas.bind('touchmove', onTouchmove);
         $canvas.bind('touchend', onUp);

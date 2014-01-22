@@ -55,7 +55,8 @@ angular.module('bookd.directives', [])
       link: function(scope, element, attrs) {
         var $canvas = element;
         var context = element[0].getContext('2d');
-        var stroke = null;
+        var canvasOffset = $canvas.offset();
+        var strokes = {};
         var paint = null;
 
         // shim layer with setTimeout fallback
@@ -82,14 +83,14 @@ angular.module('bookd.directives', [])
           if (this.points.length < 2) return;
 
           context.beginPath();
-          if(scope.curTool === "marker") {
-            context.globalCompositeOperation = "source-over";
-            context.strokeStyle = "#000";
-            context.lineCap = "round";
-            context.lineWidth = parseInt(element.css('fontSize')) - 2;
+          if(scope.curTool === 'marker') {
+            context.globalCompositeOperation = 'source-over';
+            context.strokeStyle = '#000';
+            context.lineCap = 'round';
+            context.lineWidth = parseInt(element.css('fontSize'), 10) - 2;
           }
           else {
-            context.globalCompositeOperation = "destination-out";
+            context.globalCompositeOperation = 'destination-out';
           }
 
           context.moveTo(this.points[0].x, this.points[0].y);
@@ -102,83 +103,85 @@ angular.module('bookd.directives', [])
         };
 
         var onMousedown = function(e) {
-          var parentOffset = $(this).parent().offset();
-          var mouseX = e.pageX - parentOffset.left;
-          var mouseY = e.pageY - parentOffset.top;
-            
+          var mouseX = e.pageX - canvasOffset.left;
+          var mouseY = e.pageY - canvasOffset.top;
           paint = true;
-          stroke = new Stroke(mouseX, mouseY);
+          strokes.mouse = new Stroke(mouseX, mouseY);
 
-          $canvas.bind('mousemove', onMousemove);
-          $canvas.bind('mouseenter', onMouseenter);
-          $canvas.bind('mouseout', onMouseup);
+          $(document).bind('mousemove', onMousemove);
           $(document).bind('mouseup', onMouseup);
-        };
-
-        var onMouseenter = function(e) {
-          if (paint) {
-            $canvas.trigger('mousedown');
-          }
+          $window.requestAnimFrame(drawPoints);
         };
 
         var onMousemove = function(e) {
           if (paint) {
-            var parentOffset = $(this).parent().offset();
-            var mouseX = e.pageX - parentOffset.left;
-            var mouseY = e.pageY - parentOffset.top;
-            stroke.addPoint(mouseX, mouseY);
+            var mouseX = e.pageX - canvasOffset.left;
+            var mouseY = e.pageY - canvasOffset.top;
+            strokes.mouse.addPoint(mouseX, mouseY);
           }
         };
 
         var onMouseup = function(e) {
-          if (e.type === 'mouseup') {
-            paint = false;
-            stroke = null;
-            $(document).unbind('mouseup', onMouseup);
-            $canvas.unbind('mouseenter', onMouseenter);
-          }
-          $canvas.unbind('mousemove', onMousemove);
+          paint = false;
+          strokes.mouse = null;
+          $(document).unbind('mouseup', onMouseup);
+          $(document).unbind('mousemove', onMousemove);
         };
 
         var onTouchstart = function(e) {
-          e.preventDefault();
           var touches = e.originalEvent.changedTouches;
-
-          var parentOffset = $(this).parent().offset();
-          var mouseX = touches[0].pageX - parentOffset.left;
-          var mouseY = touches[0].pageY - parentOffset.top;
           paint = true;
-          stroke = new Stroke(mouseX, mouseY);
+
+          for (var i = 0; i < touches.length; i++) {
+            var touch = touches[i];
+            var touchX = touch.pageX - canvasOffset.left;
+            var touchY = touch.pageY - canvasOffset.top;
+            strokes[touch.identifier] = new Stroke(touchX, touchY);
+          }
+
+          $canvas.bind('touchmove', onTouchmove);
+          $canvas.bind('touchend', onTouchend);
+          $window.requestAnimFrame(drawPoints);
+          e.preventDefault();
         };
 
         var onTouchmove = function(e) {
-          e.preventDefault();
           var touches = e.originalEvent.changedTouches;
-          if(paint) {
-            var parentOffset = $(this).parent().offset();
-            var linetoX = touches[0].pageX - parentOffset.left;
-            var linetoY = touches[0].pageY - parentOffset.top;
-            stroke.addPoint(linetoX, linetoY);
+          if (paint) {
+            for (var i = 0; i < touches.length; i++) {
+              var touch = touches[i];
+              var touchX = touch.pageX - canvasOffset.left;
+              var touchY = touch.pageY - canvasOffset.top;
+              strokes[touch.identifier].addPoint(touchX, touchY);
+            }
+            e.preventDefault();
           }
         };
 
-        var onUp = function(e) {
+        var onTouchend = function(e) {
+          var touches = e.originalEvent.changedTouches;
+          for (var i = 0; i < touches.length; i++) {
+            delete strokes[touches[i].identifier];
+          }
+
           paint = false;
+          $canvas.unbind('touchmove', onTouchmove);
+          $canvas.unbind('touchend', onTouchend);
+          e.preventDefault();
         };
 
         function drawPoints() {
-          if (stroke) {
-            stroke.draw();
+          for (var id in strokes) {
+            if (strokes[id]) {
+              strokes[id].draw();
+            }
           }
 
-          requestAnimFrame(drawPoints);
+          $window.requestAnimFrame(drawPoints);
         }
 
         $canvas.mousedown(onMousedown);
-        requestAnimFrame(drawPoints);
         $canvas.bind('touchstart', onTouchstart);
-        $canvas.bind('touchmove', onTouchmove);
-        $canvas.bind('touchend', onUp);
       }
     };
   }])

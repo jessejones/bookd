@@ -164,9 +164,11 @@ angular.module('bookd.directives', [])
             delete strokes[touches[i].identifier];
           }
 
-          paint = false;
-          $canvas.unbind('touchmove', onTouchmove);
-          $canvas.unbind('touchend', onTouchend);
+          if (Object.keys(strokes) === 1) {
+            paint = false;
+            $canvas.unbind('touchmove', onTouchmove);
+            $canvas.unbind('touchend', onTouchend);
+          }
           e.preventDefault();
         };
 

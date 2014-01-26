@@ -184,6 +184,9 @@ angular.module('bookd.directives', [])
 
         $canvas.mousedown(onMousedown);
         $canvas.bind('touchstart', onTouchstart);
+        $window.addEventListener('resize', function() {
+          canvasOffset = $canvas.offset();
+        });
       }
     };
   }])

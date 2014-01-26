@@ -1,31 +1,27 @@
-<div ng-controller="BlackoutCtrl">
-
-  <div class="blackout-edit" ng-show="mode === 'edit'">
-    <div class="controls">
-      <button ng-click="save()">Finish</button>
-      <button ng-click="setCurTool('marker')" class="{{ curTool === 'marker' ? 'current-tool' : '' }}">Marker</button>
-      <button ng-click="setCurTool('eraser')" class="{{ curTool === 'eraser' ? 'current-tool' : '' }}">Eraser</button>
-      <button ng-click="clear()">Clear</button>
-      <button ng-click="startNew()">New</button>
-    </div>
-
-    <h1 class="source-title">{{ source.title }}</h1>
-    <div class="blackout-board">
-      <div class="blackout-frame"></div>
-      <div class="blackout-source" ng-bind-html="source.content" text-jump></div>
-      <canvas class="blackout-canvas" width="{{ width }}" height="{{ height }}"></canvas>
-    </div>
+<div class="blackout-edit" ng-show="mode === 'edit'">
+  <div class="controls">
+    <button ng-click="save()">Finish</button>
+    <button ng-click="setCurTool('marker')" class="{{ curTool === 'marker' ? 'current-tool' : '' }}">Marker</button>
+    <button ng-click="setCurTool('eraser')" class="{{ curTool === 'eraser' ? 'current-tool' : '' }}">Eraser</button>
+    <button ng-click="clear()">Clear</button>
+    <button ng-click="startNew()">New</button>
   </div>
 
-  <div class="blackout-save" ng-show="mode === 'save'">
-    <div class="controls">
-      <button ng-click="edit()">Back</button>
-      <button ng-click="startNew()">New</button>
-    </div>
+  <h1 class="source-title">{{ source.title }}</h1>
+  <div class="blackout-board">
+    <div class="blackout-frame"></div>
+    <div class="blackout-source" ng-bind-html="source.content" text-jump></div>
+    <canvas class="blackout-canvas" width="{{ width }}" height="{{ height }}"></canvas>
+  </div>
+</div>
 
-    <div class="blackout-image">
-      <img ng-src="{{ blackoutImage }}">
-    </div>
+<div class="blackout-save" ng-show="mode === 'save'">
+  <div class="controls">
+    <button ng-click="edit()">Back</button>
+    <button ng-click="startNew()">New</button>
   </div>
 
+  <div class="blackout-image">
+    <img ng-src="{{ blackoutImage }}">
+  </div>
 </div>

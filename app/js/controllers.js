@@ -19,7 +19,13 @@ angular.module('bookd.controllers', [])
         };
 
         $scope.clear = function() {
-          $scope.$broadcast('clear');
+          if ($window.confirm('Are you sure you want to clear your work?')) {
+            $scope.$broadcast('clear');
+            return true;
+          }
+          else {
+            return false;
+          }
         };
 
         $scope.$on('save', function(e, data) {
@@ -30,8 +36,9 @@ angular.module('bookd.controllers', [])
         });
 
         $scope.startNew = function() {
-          $scope.clear();
-          $scope.init();
+          if ($scope.clear()) {
+            $scope.init();
+          }
         };
 
         $scope.init();

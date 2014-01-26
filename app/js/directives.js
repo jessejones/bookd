@@ -4,7 +4,7 @@
 
 
 angular.module('bookd.directives', [])
-  .directive('blackoutEdit', [function() {
+  .directive('blackoutEdit', ['$window', function($window) {
     return {
       restrict: 'C',
       scope: true,

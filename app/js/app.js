@@ -11,7 +11,6 @@ angular.module('bookd', [
 ]).
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider.when('/', {templateUrl: '/partials/blackout.html', controller: 'BlackoutCtrl'})
-  .when('/share/:provider', {templateUrl: '/partials/share.html', controller: 'ShareCtrl'})
   .otherwise({redirectTo: '/'});
   $locationProvider.html5Mode(true).hashPrefix('!');
 }]);

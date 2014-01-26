@@ -26,6 +26,7 @@ angular.module('bookd.directives', [])
 
         scope.$on('clear', function() {
           context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+          scope.setCurTool('marker');
         });
 
         scope.$watch('curTool', function(curTool) {

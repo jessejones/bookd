@@ -104,6 +104,7 @@ angular.module('bookd.directives', [])
         };
 
         var onMousedown = function(e) {
+          canvasOffset = $canvas.offset();
           var mouseX = e.pageX - canvasOffset.left;
           var mouseY = e.pageY - canvasOffset.top;
           paint = true;
@@ -130,6 +131,7 @@ angular.module('bookd.directives', [])
         };
 
         var onTouchstart = function(e) {
+          canvasOffset = $canvas.offset();
           var touches = e.originalEvent.changedTouches;
           paint = true;
 

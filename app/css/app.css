@@ -134,6 +134,10 @@ body {
   text-decoration: none;
 }
 
+.source-title {
+  font-size: 21px;
+}
+
 .new-source {
   text-align: right;
 }
@@ -315,8 +319,12 @@ body {
     font-size: 40px;
   }
 
+  .source-title {
+    font-size: 28px;
+  }
+
   .source-title [class^="icon-"], [class*=" icon-"] {
-    font-size: 26px;
+    font-size: 24px;
   }
 
   .brand {

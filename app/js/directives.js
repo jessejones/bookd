@@ -24,9 +24,14 @@ angular.module('bookd.directives', [])
           scope.curTool = tool;
         };
 
+        scope.setToolSize = function(size) {
+          scope.toolSize = size;
+        };
+
         scope.$on('clear', function() {
           context.clearRect(0, 0, context.canvas.width, context.canvas.height);
           scope.setCurTool('marker');
+          scope.setToolSize(2);
         });
 
         scope.$watch('curTool', function(curTool) {
@@ -37,16 +42,32 @@ angular.module('bookd.directives', [])
             scope.setCurTool('marker');
           }
         });
+
+        scope.$watch('toolSize', function(toolSize) {
+          if(toolSize) {
+            scope.setToolSize(toolSize);
+          }
+          else {
+            scope.setToolSize(2);
+          }
+        });
       }
     };
   }])
-  .directive('blackoutBoard', [function() {
+  .directive('blackoutBoard', ['$window', function($window) {
     return {
       restrict: 'C',
       link: function(scope, element, attrs) {
-        var element = element[0];
-        scope.width = element.offsetWidth;
-        scope.height = element.offsetHeight;
+        var deviceWidth = $window.screen.width;
+        var $container = element.parent();
+        var $frame = element.find('.blackout-frame');
+        var newWidth = (deviceWidth < 769) ? deviceWidth - 90 : .6 * deviceWidth;
+
+        $container.width(newWidth);
+        element.height( (deviceWidth < 481) ? newWidth * 4 : newWidth * (3/2) );
+        scope.width = element[0].offsetWidth;
+        scope.height = element[0].offsetHeight;
+        $frame.height(scope.height - $frame.css('border-top').match(/^\d+/)[0] * 2);
       }
     };
   }])
@@ -57,6 +78,7 @@ angular.module('bookd.directives', [])
         var $canvas = element;
         var context = element[0].getContext('2d');
         var canvasOffset = $canvas.offset();
+        var $blackoutBoard = $('.blackout-board');
         var strokes = {};
         var paint = null;
 
@@ -188,6 +210,7 @@ angular.module('bookd.directives', [])
         $canvas.mousedown(onMousedown);
         $canvas.bind('touchstart', onTouchstart);
         $window.addEventListener('resize', function() {
+          $blackoutBoard.width(scope.width);
           canvasOffset = $canvas.offset();
         });
       }

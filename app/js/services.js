@@ -34,14 +34,29 @@ angular.module('bookd.services', [])
     function getArticle(id, deferred) {
       var show_url = 'https://api.pearson.com/penguin/classics/v1/articles/'+ id +'?content-fmt=html';
       $http.get(show_url)
-           .success(function getSuccessResponse(data) { deferred.resolve(parseArticle(data)); });
+           .success(function getSuccessResponse(data) {
+             getBook(data, deferred);
+             // deferred.resolve(parseArticle(data));
+          });
+    }
+
+    function getBook(data, deferred) {
+      var book_url = 'https://api.pearson.com/penguin/classics/v1/books/' + data.article.book.id;
+      $http.get(book_url)
+           .success(function (bookData) {
+             data.article.book.isbn = bookData.book.isbn;
+             data.article.book.author = bookData.book.authors[0]['full_name'];
+             deferred.resolve(parseArticle(data));
+           });
     }
 
     function parseArticle(data) {
       var article = data.article;
       return {
         title: article.book.title,
-        content: article.content
+        author: article.book.author,
+        content: article.content,
+        isbn: article.book.isbn
       };
     }
 

@@ -1,25 +1,62 @@
 <div class="blackout-edit" ng-show="mode === 'edit'">
-  <div class="controls">
-    <button ng-click="save()">Finish</button>
-    <button ng-click="setCurTool('marker')" class="{{ curTool === 'marker' ? 'current-tool' : '' }}">Marker</button>
-    <button ng-click="setCurTool('eraser')" class="{{ curTool === 'eraser' ? 'current-tool' : '' }}">Eraser</button>
-    <button ng-click="clear()">Clear</button>
-    <button ng-click="startNew()">New</button>
+  <div class="sidebar">
+    <h1 class="brand">
+      <span class="label">Baku</span>
+    </h1>
+    <button ng-click="setCurTool('marker')" class="tab {{ curTool === 'marker' ? 'current-tool' : '' }}">
+      <span class="icon-marker"></span><span class="label">Marker</span>
+    </button>
+    <button ng-click="setCurTool('eraser')" class="tab {{ curTool === 'eraser' ? 'current-tool' : '' }}">
+      <span class="icon-eraser"></span><span class="label">Eraser</span>
+    </button>
+<!--     <div class="tool-size">
+      <div class="tab-drawer">
+        <button ng-click="setToolSize(1)" class="size-option {{ toolSize === 1 ? 'current-size' : '' }}">
+          small</button><button ng-click="setToolSize(2)" class="size-option {{ toolSize === 2 ? 'current-size' : '' }}">
+          medium</button><button ng-click="setToolSize(3)" class="size-option {{ toolSize === 3 ? 'current-size' : '' }}">
+          large</button><button class="size-option tab">
+          size</button>
+      </div>
+    </div> -->
+    <div class="portrait-sidebar">
+      <button ng-click="save()" class="tab">
+        <span class="icon-eye"></span><span class="label">Preview</span>
+      </button>
+      <button ng-click="clear()" class="tab">
+        <span class="icon-ccw"></span><span class="label">Clear</span>
+      </button>
+    </div>
   </div>
 
-  <h1 class="source-title">{{ source.title }}</h1>
-  <div class="blackout-board">
-    <div class="blackout-frame"></div>
-    <div class="blackout-source" ng-bind-html="source.content" text-jump></div>
-    <canvas class="blackout-canvas" width="{{ width }}" height="{{ height }}"></canvas>
+  <div class="container">
+    <div class="source-info">
+      <div ng-if="source.title">
+        currently <a href="http://newspaperblackout.com/">blacking out</a> {{ source.author + '’s'}}
+        <h2 class="source-title">
+          <a ng-href="http://worldcatlibraries.org/registry/gateway?isbn={{ source.isbn }}">
+            {{ source.title }}
+            <span class="icon-link"></span>
+          </a>
+        </h2>
+        <div class="new-source">
+          <a href="#" role="button" ng-click="startNew()">change text</a>
+        </div>
+      </div>
+      <div ng-if="!source.title">Getting text…</div>
+    </div>
+
+    <div class="blackout-board">
+      <div class="blackout-frame"></div>
+      <div class="blackout-source" ng-bind-html="source.content" text-jump></div>
+      <canvas class="blackout-canvas" width="{{ width }}" height="{{ height }}"></canvas>
+    </div>
   </div>
 </div>
 
 <div class="blackout-save" ng-show="mode === 'save'">
-  <div class="controls">
-    <button ng-click="edit()">Back</button>
-    <button ng-click="startNew()">New</button>
-  </div>
+  <nav class="preview-nav">
+    <button ng-click="edit()">keep editing</button><button ng-click="startNew()">start new</button>
+  </nav>
 
   <div class="blackout-image">
     <img ng-src="{{ blackoutImage }}">

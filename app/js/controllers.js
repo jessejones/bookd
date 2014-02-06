@@ -21,10 +21,6 @@ angular.module('bookd.controllers', [])
         $scope.clear = function() {
           if ($window.confirm('Are you sure you want to clear your work?')) {
             $scope.$broadcast('clear');
-            return true;
-          }
-          else {
-            return false;
           }
         };
 
@@ -36,7 +32,8 @@ angular.module('bookd.controllers', [])
         });
 
         $scope.startNew = function() {
-          if ($scope.clear()) {
+          if ($window.confirm('Are you sure you want to start a new poem?')) {
+            $scope.$broadcast('clear');
             $scope.init();
           }
         };

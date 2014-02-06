@@ -315,6 +315,10 @@ body {
     font-size: 40px;
   }
 
+  .source-title [class^="icon-"], [class*=" icon-"] {
+    font-size: 26px;
+  }
+
   .brand {
     background-size: 100px 100px;
   }

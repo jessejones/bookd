@@ -28,7 +28,6 @@ angular.module('bookd.controllers', [])
           $scope.$apply(function() {
             $scope.mode = 'save';
             $scope.blackoutImage = data;
-            $scope.$broadcast('blackoutImage');
           });
         });
 

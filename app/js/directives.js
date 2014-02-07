@@ -65,9 +65,9 @@ angular.module('bookd.directives', [])
 
         $container.width(newWidth);
         element.height( (deviceWidth < 481) ? newWidth * 4 : newWidth * (3/2) );
-        scope.$parent.width = element[0].offsetWidth;
-        scope.$parent.height = element[0].offsetHeight;
-        $frame.height(scope.$parent.height - $frame.css('borderTopWidth').match(/^\d+/)[0] * 2);
+        scope.$root.width = element[0].offsetWidth;
+        scope.$root.height = element[0].offsetHeight;
+        $frame.height(scope.$root.height - $frame.css('borderTopWidth').match(/^\d+/)[0] * 2);
       }
     };
   }])
@@ -75,7 +75,7 @@ angular.module('bookd.directives', [])
     return {
       restrict: 'C',
       link: function(scope, element, attrs) {
-        element.outerWidth(scope.$parent.width);
+        element.outerWidth(scope.$root.width);
       }
     };
   }])
@@ -234,7 +234,7 @@ angular.module('bookd.directives', [])
         scope.$watch('content', function() {
           var $parent = element.parent();
           element.height('auto');
-          var parentHeight = scope.$parent.height;
+          var parentHeight = scope.$root.height;
           var lineHeight = parseInt($('.blackout-source p').css('line-height'));
           var fullHeight = Math.floor(element[0].offsetHeight / lineHeight) * lineHeight;
           element.height(fullHeight);

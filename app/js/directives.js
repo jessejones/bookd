@@ -65,9 +65,17 @@ angular.module('bookd.directives', [])
 
         $container.width(newWidth);
         element.height( (deviceWidth < 481) ? newWidth * 4 : newWidth * (3/2) );
-        scope.width = element[0].offsetWidth;
-        scope.height = element[0].offsetHeight;
+        scope.$parent.width = element[0].offsetWidth;
+        scope.$parent.height = element[0].offsetHeight;
         $frame.height(scope.height - $frame.css('border-top').match(/^\d+/)[0] * 2);
+      }
+    };
+  }])
+  .directive('previewInfo', [function() {
+    return {
+      restrict: 'C',
+      link: function(scope, element, attrs) {
+        element.outerWidth(scope.$parent.width);
       }
     };
   }])

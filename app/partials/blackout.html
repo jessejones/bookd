@@ -58,6 +58,13 @@
     <button ng-click="edit()">keep editing</button><button ng-click="startNew()">start new</button>
   </nav>
 
+  <div ng-if="blackoutImage">
+    <div class="preview-info">
+      If you’re happy with your poem, save the image below. And if you’re <em>really</em> happy with it,
+      <a href="http://baku-poems.tumblr.com/submit">share your creation</a> on the <a href="http://baku-poems.tumblr.com/">Baku Poems Tumblr</a>.
+    </div>
+  </div>
+
   <div class="blackout-image">
     <img ng-src="{{ blackoutImage }}">
   </div>

@@ -120,7 +120,7 @@ body {
   border: 1px solid #000;
 }
 
-.source-info, .preview-nav button {
+.source-info, .preview-nav button, .preview-info {
   color: #FDFFFF;
   background-color: #3F4040;
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
@@ -129,7 +129,7 @@ body {
   margin-bottom: 50px;
 }
 
-.source-info a {
+.source-info a, .preview-info a {
   color: #E5BF2C;
   text-decoration: none;
 }
@@ -167,6 +167,10 @@ body {
 
 .preview-nav button+button {
   border-left: 1px solid #FDFFFF;
+}
+
+.preview-info {
+  margin: 0 auto 50px auto;
 }
 
 .blackout-canvas {
@@ -337,5 +341,9 @@ body {
 
   .preview-nav {
     font-size: 20px;
+  }
+
+  .preview-info {
+    line-height: 1.5em;
   }
 }

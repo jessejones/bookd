@@ -47,6 +47,11 @@
   left: -10000px;
 }
 
+.pull-bottom {
+  position: absolute;
+  bottom: 5px;
+}
+
 /* app css stylesheet */
 body {
   margin: 0;
@@ -66,11 +71,6 @@ body {
   margin: 0;
 }
 
-.controls {
-  text-align: center;
-  margin-top: 50px;
-}
-
 .sidebar {
   width: 50px;
   position: fixed;
@@ -79,7 +79,7 @@ body {
   z-index: 1000;
 }
 
-.tab {
+.tab, .size-option {
   color: #FDFFFF;
   background-color: #7E7F7F;
   border: 0;
@@ -92,16 +92,18 @@ body {
   border-top: 1px solid #FDFFFF;
 }
 
+.tool-selection {
+  border-bottom: 1px solid #FDFFFF;
+}
+
+.tab-drawer .size-option:nth-child(3) {
+  border-right: 1px solid #FDFFFF;
+}
+
 .tool-size {
   width: 50px;
   height: 50px;
   position: relative;
-}
-
-.size-option {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
 }
 
 .tab-drawer {
@@ -111,13 +113,42 @@ body {
   right: 0;
 }
 
-.current-tool {
+.size-option {
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.size-dot {
+  display: inline-block;
+  background-color: #FDFFFF;
+  border-radius: 100%;
+}
+
+.size-5 {
+  width: 3px;
+  height: 3px;
+}
+
+.size-15 {
+  width: 6px;
+  height: 6px;
+}
+
+.size-25 {
+  width: 9px;
+  height: 9px;
+}
+
+.current-tool, .current-size {
   color: #E5BF2C;
   background-color: #3F4040;
 }
 
-.current-size {
-  border: 1px solid #000;
+.current-size .size-dot {
+  background-color: #E5BF2C;
 }
 
 .source-info, .preview-nav button, .preview-info {
@@ -243,6 +274,13 @@ body {
           transition: height 500ms ease-in;
 }
 
+.tab-drawer {
+  -webkit-transition: left 250ms ease-in-out;
+     -moz-transition: left 250ms ease-in-out;
+       -o-transition: left 250ms ease-in-out;
+          transition: left 250ms ease-in-out;
+}
+
 @media screen and (orientation:landscape) {
   .container {
     margin-right: auto;
@@ -316,13 +354,37 @@ body {
   .sidebar,
   .landscape-sidebar,
   .tab,
-  .tool-size {
+  .tool-size,
+  .size-option {
     width: 100px;
     height: 100px;
   }
 
   [class^="icon-"], [class*=" icon-"] {
     font-size: 40px;
+  }
+
+  .tab-drawer {
+    width: 400px;
+  }
+
+  .size-option {
+    font-size: 14px;
+  }
+
+  .size-5 {
+    width: 5px;
+    height: 5px;
+  }
+
+  .size-15 {
+    width: 15px;
+    height: 15px;
+  }
+
+  .size-25 {
+    width: 25px;
+    height: 25px;
   }
 
   .source-title {

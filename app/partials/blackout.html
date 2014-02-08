@@ -3,21 +3,34 @@
     <h1 class="brand">
       <span class="label">Baku</span>
     </h1>
-    <button ng-click="setCurTool('marker')" class="tab {{ curTool === 'marker' ? 'current-tool' : '' }}">
-      <span class="icon-marker"></span><span class="label">Marker</span>
-    </button>
-    <button ng-click="setCurTool('eraser')" class="tab {{ curTool === 'eraser' ? 'current-tool' : '' }}">
-      <span class="icon-eraser"></span><span class="label">Eraser</span>
-    </button>
-<!--     <div class="tool-size">
+    <div class="tool-selection">
+      <button ng-click="setToolType('marker')" class="tab {{ tool.kind === 'marker' ? 'current-tool' : '' }}">
+        <span class="icon-marker"></span><span class="label">Marker</span>
+      </button>
+      <button ng-click="setToolType('eraser')" class="tab {{ tool.kind === 'eraser' ? 'current-tool' : '' }}">
+        <span class="icon-eraser"></span><span class="label">Eraser</span>
+      </button>
+   </div>
+    <div class="tool-size">
       <div class="tab-drawer">
-        <button ng-click="setToolSize(1)" class="size-option {{ toolSize === 1 ? 'current-size' : '' }}">
-          small</button><button ng-click="setToolSize(2)" class="size-option {{ toolSize === 2 ? 'current-size' : '' }}">
-          medium</button><button ng-click="setToolSize(3)" class="size-option {{ toolSize === 3 ? 'current-size' : '' }}">
-          large</button><button class="size-option tab">
-          size</button>
+        <button ng-click="setToolSize(5)" class="size-option {{ tool.size === 5 ? 'current-size' : '' }}">
+          <div class="size-dot size-5">
+            <span class="label">small</span>
+          </div>
+        </button><button ng-click="setToolSize(15)" class="size-option {{ tool.size === 15 ? 'current-size' : '' }}">
+          <div class="size-dot size-15">
+            <span class="label">medium</span>
+          </div>
+        </button><button ng-click="setToolSize(25)" class="size-option {{ tool.size === 25 ? 'current-size' : '' }}">
+          <div class="size-dot size-25">
+            <span class="label">large</span>
+          </div>
+        </button><button class="size-option tab">
+          <div class="size-dot {{ 'size-' + tool.size }}"></div>
+          <div>size</div>
+        </button>
       </div>
-    </div> -->
+    </div>
     <div class="landscape-sidebar">
       <button ng-click="save()" class="tab">
         <span class="icon-eye"></span><span class="label">Preview</span>

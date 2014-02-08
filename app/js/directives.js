@@ -11,6 +11,7 @@ angular.module('bookd.directives', [])
       link: function(scope, element, attrs) {
         var $canvas = element.find('canvas.blackout-canvas');
         var context = $canvas[0].getContext('2d');
+        var defaultTool = {kind: 'marker', size: 15};
 
         scope.save = function() {
           html2canvas($('.blackout-board')[0], {
@@ -20,37 +21,47 @@ angular.module('bookd.directives', [])
           });
         };
 
-        scope.setCurTool = function(tool) {
-          scope.curTool = tool;
+        scope.resetTool = function() {
+          scope.tool = defaultTool;
+        };
+
+        scope.setToolType = function(tool) {
+          scope.tool.kind = tool;
         };
 
         scope.setToolSize = function(size) {
-          scope.toolSize = size;
+          scope.tool.size = size;
         };
 
         scope.$on('clear', function() {
           context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-          scope.setCurTool('marker');
-          scope.setToolSize(2);
+          scope.resetTool();
         });
 
-        scope.$watch('curTool', function(curTool) {
-          if(curTool) {
-            scope.setCurTool(curTool);
+        scope.$watch('tool', function(newTool) {
+          if(newTool) {
+            scope.tool = newTool;
           }
           else {
-            scope.setCurTool('marker');
+            scope.resetTool();
           }
-        });
+        }, true);
+      }
+    };
+  }])
+  .directive('tabDrawer', [function() {
+    return {
+      restrict: 'C',
+      link: function(scope, element, attrs) {
+        var width = element.width();
 
-        scope.$watch('toolSize', function(toolSize) {
-          if(toolSize) {
-            scope.setToolSize(toolSize);
-          }
-          else {
-            scope.setToolSize(2);
-          }
-        });
+        var slide = function(e) {
+          var l = element.offset().left;
+          var left = (l < 0) ? 0: -0.75 * width;
+          element.offset({left: left});
+        };
+
+        element[0].addEventListener('click', slide, false);
       }
     };
   }])
@@ -142,11 +153,11 @@ angular.module('bookd.directives', [])
           if (this.points.length < 2) return;
 
           context.beginPath();
-          if(scope.curTool === 'marker') {
+          context.lineCap = 'round';
+          context.lineWidth = scope.tool.size;
+          if(scope.tool.kind === 'marker') {
             context.globalCompositeOperation = 'source-over';
             context.strokeStyle = '#000';
-            context.lineCap = 'round';
-            context.lineWidth = parseInt(element.css('fontSize'), 10) - 2;
           }
           else {
             context.globalCompositeOperation = 'destination-out';

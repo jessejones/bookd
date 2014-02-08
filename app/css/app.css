@@ -201,14 +201,6 @@ body {
   -webkit-user-select: text;
 }
 
-::selection {
-  background: #000;
-}
-
-::-moz-selection {
-  background: #000;
-}
-
 .blackout-frame {
      -moz-box-sizing: content-box;
   -webkit-box-sizing: content-box;

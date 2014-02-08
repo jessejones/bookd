@@ -248,7 +248,7 @@ body {
   }
 }
 
-@media screen and (min-device-width: 480px) {
+@media screen and (min-device-width: 768px) {
   .blackout-source {
     margin-right: 50px;
     margin-left: 50px;

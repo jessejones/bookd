@@ -236,6 +236,13 @@ body {
   margin-top: 0;
 }
 
+.source-info, .blackout-board {
+  -webkit-transition: height 500ms ease-in;
+     -moz-transition: height 500ms ease-in;
+       -o-transition: height 500ms ease-in;
+          transition: height 500ms ease-in;
+}
+
 @media screen and (orientation:landscape) {
   .container {
     margin-right: auto;

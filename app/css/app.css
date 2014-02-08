@@ -109,22 +109,20 @@ body {
 .tab-drawer {
   display: inline-block;
   width: 200px;
-  position: absolute;
-  right: 0;
 }
 
 .closed {
-  -webkit-transform: translateX(0);
-     -moz-transform: translateX(0);
-       -o-transform: translateX(0);
-          transform: translateX(0);
+  -webkit-transform: translateX(-150px);
+     -moz-transform: translateX(-150px);
+       -o-transform: translateX(-150px);
+          transform: translateX(-150px);
 }
 
 .opened {
-  -webkit-transform: translateX(150px);
-     -moz-transform: translateX(150px);
-       -o-transform: translateX(150px);
-          transform: translateX(150px);
+  -webkit-transform: translateX(0px);
+     -moz-transform: translateX(0px);
+       -o-transform: translateX(0px);
+          transform: translateX(0px);
 }
 
 .size-option {
@@ -382,12 +380,12 @@ body {
     width: 400px;
   }
 
-.opened {
-  -webkit-transform: translateX(300px);
-     -moz-transform: translateX(300px);
-       -o-transform: translateX(300px);
-          transform: translateX(300px);
-}
+  .closed {
+    -webkit-transform: translateX(-300px);
+       -moz-transform: translateX(-300px);
+         -o-transform: translateX(-300px);
+            transform: translateX(-300px);
+  }
 
   .size-option {
     font-size: 14px;

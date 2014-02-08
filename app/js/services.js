@@ -38,8 +38,7 @@ angular.module('bookd.services', [])
       $http.get(show_url + apiKey)
            .success(function getSuccessResponse(data) {
              getBook(data, deferred);
-             // deferred.resolve(parseArticle(data));
-          });
+           });
     }
 
     function getBook(data, deferred) {

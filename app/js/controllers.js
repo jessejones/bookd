@@ -18,12 +18,6 @@ angular.module('bookd.controllers', [])
           $scope.mode = 'edit';
         };
 
-        $scope.clear = function() {
-          if ($window.confirm('Are you sure you want to clear your work?')) {
-            $scope.$broadcast('clear');
-          }
-        };
-
         $scope.$on('save', function(e, data) {
           $scope.$apply(function() {
             $scope.mode = 'save';

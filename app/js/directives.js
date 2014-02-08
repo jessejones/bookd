@@ -21,10 +21,6 @@ angular.module('bookd.directives', [])
           });
         };
 
-        scope.resetTool = function() {
-          scope.tool = defaultTool;
-        };
-
         scope.setToolType = function(tool) {
           scope.tool.kind = tool;
         };
@@ -33,14 +29,24 @@ angular.module('bookd.directives', [])
           scope.tool.size = size;
         };
 
-        scope.$on('clear', function() {
+        var reset = function() {
           context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-          scope.resetTool();
+          scope.setToolType('marker');
+        };
+
+        scope.clear = function() {
+          if ($window.confirm('Are you sure you want to clear your work?')) {
+            reset();
+          }
+        };
+
+        scope.$on('clear', function() {
+          reset();
         });
 
         scope.$watch('tool', function(newTool) {
           if (!newTool) {
-            scope.resetTool();
+            scope.tool = defaultTool;
           }
           else {
             scope.tool = newTool;

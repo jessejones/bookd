@@ -215,7 +215,6 @@ angular.module('bookd.directives', [])
               var touchY = touch.pageY - canvasOffset.top;
               strokes[touch.identifier].addPoint(touchX, touchY);
             }
-            e.preventDefault();
           }
         };
 

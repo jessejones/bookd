@@ -289,10 +289,10 @@ body {
 }
 
 .tab-drawer {
-  -webkit-transition: -webkit-transform 250ms ease-in-out;
-     -moz-transition: -moz-transform 250ms ease-in-out;
-       -o-transition: -o-transform 250ms ease-in-out;
-          transition: transform 250ms ease-in-out;
+  -webkit-transition: -webkit-transform 350ms ease-in-out 100ms;
+     -moz-transition: -moz-transform 350ms ease-in-out 100ms;
+       -o-transition: -o-transform 350ms ease-in-out 100ms;
+          transition: transform 350ms ease-in-out 100ms;
 }
 
 @media screen and (orientation:landscape) {

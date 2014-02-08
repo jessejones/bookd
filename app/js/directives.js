@@ -63,8 +63,7 @@ angular.module('bookd.directives', [])
         var $frame = element.find('.blackout-frame');
         var $source = element.find('.blackout-source');
         var newWidth = (deviceWidth < 769) ? deviceWidth - 90 : 0.6 * deviceWidth;
-        var newHeight = (deviceWidth < 481) ? newWidth * 4 : newWidth * (3/2);
-        scope.$root.dimensions = {width: newWidth, height: newHeight};
+        scope.$root.dimensions = {width: newWidth, height: 0};
 
         scope.$watch('dimensions', function(dimensions) {
           if (!dimensions) return;
@@ -74,8 +73,7 @@ angular.module('bookd.directives', [])
 
         scope.$watch('source.content', function(content) {
           if (!content) return;
-
-          var containerHeight = scope.$root.dimensions.height;
+          var containerHeight = (deviceWidth < 481) ? newWidth * 4 : newWidth * (3/2);
           var lineHeight = parseInt($source.find('p').css('line-height'), 10);
           var sourceHeight = $source.height();
           var frameHeight = 0;

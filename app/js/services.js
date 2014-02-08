@@ -18,6 +18,8 @@ angular.module('bookd.services', [])
   }])
   // Service for Pearson Penguin Classics API
   .factory('penguinClassics', ['$http', '$q', 'util', function penguinServiceFactory($http, $q, util) {
+    var apiKey = '&apikey=XaFoCr1dzBfhqnEqAalcU7Wdhr6eNcZ2';
+
     function getId(data) {
       return data.articles[0].id;
     }
@@ -26,14 +28,14 @@ angular.module('bookd.services', [])
       var deferred = $q.defer();
       var COUNT = 198;
       var BASE = 'https://api.pearson.com/penguin/classics/v1/articles?limit=1&offset=';
-      $http.get(BASE + util.random(0, COUNT - 1))
+      $http.get(BASE + util.random(0, COUNT - 1) + apiKey)
            .success(function listSuccess(data) { getArticle(getId(data), deferred); });
       return deferred.promise;
     }
 
     function getArticle(id, deferred) {
       var show_url = 'https://api.pearson.com/penguin/classics/v1/articles/'+ id +'?content-fmt=html';
-      $http.get(show_url)
+      $http.get(show_url + apiKey)
            .success(function getSuccessResponse(data) {
              getBook(data, deferred);
              // deferred.resolve(parseArticle(data));
@@ -42,7 +44,7 @@ angular.module('bookd.services', [])
 
     function getBook(data, deferred) {
       var book_url = 'https://api.pearson.com/penguin/classics/v1/books/' + data.article.book.id;
-      $http.get(book_url)
+      $http.get(book_url + '?' + apiKey)
            .success(function (bookData) {
              data.article.book.isbn = bookData.book.isbn;
              data.article.book.author = bookData.book.authors[0]['full_name'];

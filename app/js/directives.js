@@ -39,11 +39,11 @@ angular.module('bookd.directives', [])
         });
 
         scope.$watch('tool', function(newTool) {
-          if(newTool) {
-            scope.tool = newTool;
+          if (!newTool) {
+            scope.resetTool();
           }
           else {
-            scope.resetTool();
+            scope.tool = newTool;
           }
         }, true);
       }
@@ -55,10 +55,25 @@ angular.module('bookd.directives', [])
       link: function(scope, element, attrs) {
         var width = element.width();
 
+        var close = function(e) {
+          document.removeEventListener('mousedown', close, true);
+          document.removeEventListener('touchstart', close, true);
+
+          if ($(e.target).closest('.tool-size').length === 1) {
+            return;
+          }
+          element.toggleClass('opened closed');
+        };
+
         var slide = function(e) {
-          var l = element.offset().left;
-          var left = (l < 0) ? 0: -0.75 * width;
-          element.offset({left: left});
+          var size = parseInt($(e.target).closest('.size-option').attr('data-size'), 10);
+          element.toggleClass('opened closed');
+          scope.setToolSize(size);
+
+          if (element.hasClass('opened')) {
+            document.addEventListener('mousedown', close, true);
+            document.addEventListener('touchstart', close, true);
+          }
         };
 
         element[0].addEventListener('click', slide, false);

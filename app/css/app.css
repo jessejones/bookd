@@ -113,6 +113,20 @@ body {
   right: 0;
 }
 
+.closed {
+  -webkit-transform: translateX(0);
+     -moz-transform: translateX(0);
+       -o-transform: translateX(0);
+          transform: translateX(0);
+}
+
+.opened {
+  -webkit-transform: translateX(150px);
+     -moz-transform: translateX(150px);
+       -o-transform: translateX(150px);
+          transform: translateX(150px);
+}
+
 .size-option {
   font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
   font-size: 11px;
@@ -275,10 +289,10 @@ body {
 }
 
 .tab-drawer {
-  -webkit-transition: left 250ms ease-in-out;
-     -moz-transition: left 250ms ease-in-out;
-       -o-transition: left 250ms ease-in-out;
-          transition: left 250ms ease-in-out;
+  -webkit-transition: -webkit-transform 250ms ease-in-out;
+     -moz-transition: -moz-transform 250ms ease-in-out;
+       -o-transition: -o-transform 250ms ease-in-out;
+          transition: transform 250ms ease-in-out;
 }
 
 @media screen and (orientation:landscape) {
@@ -367,6 +381,13 @@ body {
   .tab-drawer {
     width: 400px;
   }
+
+.opened {
+  -webkit-transform: translateX(300px);
+     -moz-transform: translateX(300px);
+       -o-transform: translateX(300px);
+          transform: translateX(300px);
+}
 
   .size-option {
     font-size: 14px;

@@ -12,20 +12,20 @@
       </button>
    </div>
     <div class="tool-size">
-      <div class="tab-drawer">
-        <button ng-click="setToolSize(5)" class="size-option {{ tool.size === 5 ? 'current-size' : '' }}">
+      <div class="tab-drawer closed">
+        <button data-size="5" ng-click="setToolSize(5)" class="size-option {{ tool.size === 5 ? 'current-size' : '' }}">
           <div class="size-dot size-5">
             <span class="label">small</span>
           </div>
-        </button><button ng-click="setToolSize(15)" class="size-option {{ tool.size === 15 ? 'current-size' : '' }}">
+        </button><button data-size="15" ng-click="setToolSize(15)" class="size-option {{ tool.size === 15 ? 'current-size' : '' }}">
           <div class="size-dot size-15">
             <span class="label">medium</span>
           </div>
-        </button><button ng-click="setToolSize(25)" class="size-option {{ tool.size === 25 ? 'current-size' : '' }}">
+        </button><button data-size="25" ng-click="setToolSize(25)" class="size-option {{ tool.size === 25 ? 'current-size' : '' }}">
           <div class="size-dot size-25">
             <span class="label">large</span>
           </div>
-        </button><button class="size-option tab">
+        </button><button data-size="{{ tool.size }}" class="size-option tab">
           <div class="size-dot {{ 'size-' + tool.size }}"></div>
           <div>size</div>
         </button>

@@ -58,11 +58,11 @@ angular.module('bookd.directives', [])
     return {
       restrict: 'C',
       link: function(scope, element, attrs) {
-        var deviceWidth = $window.screen.width;
+        var deviceWidth = Math.min($window.screen.width, $window.screen.height);
         var $container = element.parent();
         var $frame = element.find('.blackout-frame');
         var $source = element.find('.blackout-source');
-        var newWidth = (deviceWidth < 769) ? deviceWidth - 90 : 0.6 * deviceWidth;
+        var newWidth = (deviceWidth < 769) ? deviceWidth - 90 : deviceWidth;
         scope.$root.dimensions = {width: newWidth, height: 0};
 
         scope.$watch('dimensions', function(dimensions) {

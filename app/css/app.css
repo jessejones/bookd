@@ -88,7 +88,7 @@ body {
   margin: 0;
 }
 
-.tab+.tab, .portrait-sidebar .tab:first-child {
+.tab+.tab, .landscape-sidebar .tab:first-child {
   border-top: 1px solid #FDFFFF;
 }
 
@@ -179,6 +179,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 100;
+  
 }
 
 .blackout-source {
@@ -201,8 +202,6 @@ body {
   position: relative;
   z-index: 10;
   width: 100%;
-  border-top: 21px solid white;
-  border-bottom: 21px solid white;
 }
 
 .blackout-source p,
@@ -237,14 +236,14 @@ body {
     margin-left: auto;
   }
 
-  .portrait-sidebar {
+  .landscape-sidebar {
     position: fixed;
     top: 50px;
     right: 0;
     width: 50px;
   }
 
-  .portrait-sidebar .tab:first-child {
+  .landscape-sidebar .tab:first-child {
     border: 0;
   }
 }
@@ -269,21 +268,11 @@ body {
   .container {
     width: 600px;
   }
-
-  .blackout-frame {
-    border-top: 63px solid white;
-    border-bottom: 63px solid white;
-  }
 }
 
 @media screen and (min-device-width: 768px) {
   body {
     font-size: 16px;
-  }
-
-  .blackout-frame {
-    border-top: 72px solid white;
-    border-bottom: 72px solid white;
   }
 
   .blackout-source p,
@@ -312,7 +301,7 @@ body {
 @media screen and (min-device-width: 1200px) {
   .brand,
   .sidebar,
-  .portrait-sidebar,
+  .landscape-sidebar,
   .tab,
   .tool-size {
     width: 100px;

@@ -54,20 +54,50 @@ angular.module('bookd.directives', [])
       }
     };
   }])
-  .directive('blackoutBoard', ['$window', function($window) {
+  .directive('blackoutBoard', ['$window', 'util', function($window, util) {
     return {
       restrict: 'C',
       link: function(scope, element, attrs) {
         var deviceWidth = $window.screen.width;
         var $container = element.parent();
         var $frame = element.find('.blackout-frame');
-        var newWidth = (deviceWidth < 769) ? deviceWidth - 90 : .6 * deviceWidth;
+        var $source = element.find('.blackout-source');
+        var newWidth = (deviceWidth < 769) ? deviceWidth - 90 : 0.6 * deviceWidth;
+        var newHeight = (deviceWidth < 481) ? newWidth * 4 : newWidth * (3/2);
+        scope.$root.dimensions = {width: newWidth, height: newHeight};
 
-        $container.width(newWidth);
-        element.height( (deviceWidth < 481) ? newWidth * 4 : newWidth * (3/2) );
-        scope.$root.width = element[0].offsetWidth;
-        scope.$root.height = element[0].offsetHeight;
-        $frame.height(scope.$root.height - $frame.css('borderTopWidth').match(/^\d+/)[0] * 2);
+        scope.$watch('dimensions', function(dimensions) {
+          if (!dimensions) return;
+          $container.width(dimensions.width);
+          element.height(dimensions.height);
+        }, true);
+
+        scope.$watch('source.content', function(content) {
+          if (!content) return;
+
+          var containerHeight = scope.$root.dimensions.height;
+          var lineHeight = parseInt($source.find('p').css('line-height'), 10);
+          var sourceHeight = $source.height();
+          var frameHeight = 0;
+          var frameBorder = lineHeight * 2;
+          var borderStyle = 'px solid white';
+          var start = element[0].offsetTop + frameBorder;
+          var offset = 0;
+
+          if (sourceHeight <= containerHeight) {
+            frameHeight = sourceHeight;
+          }
+          else {
+            frameHeight = Math.floor(containerHeight / lineHeight) * lineHeight;
+            offset = util.random(0, sourceHeight - frameHeight);
+            offset = Math.floor(offset / lineHeight) * lineHeight;
+          }
+
+          scope.$root.dimensions.height =  frameHeight + frameBorder * 2;
+          $frame.height(frameHeight);
+          $frame.css({borderTop: frameBorder + borderStyle, borderBottom: frameBorder + borderStyle});
+          $source.offset({top: start - offset});
+        });
       }
     };
   }])
@@ -75,7 +105,7 @@ angular.module('bookd.directives', [])
     return {
       restrict: 'C',
       link: function(scope, element, attrs) {
-        element.outerWidth(scope.$root.width);
+        element.outerWidth(scope.$root.dimensions.width);
       }
     };
   }])
@@ -220,28 +250,6 @@ angular.module('bookd.directives', [])
         $window.addEventListener('resize', function() {
           $blackoutBoard.width(scope.width);
           canvasOffset = $canvas.offset();
-        });
-      }
-    };
-  }])
-  .directive('textJump', ['util', function(util) {
-    return {
-      restrict: 'A',
-      scope: {
-        content: '=ngBindHtml'
-      },
-      link: function(scope, element, attr) {
-        scope.$watch('content', function() {
-          var $parent = element.parent();
-          element.height('auto');
-          var parentHeight = scope.$root.height;
-          var lineHeight = parseInt($('.blackout-source p').css('line-height'));
-          var fullHeight = Math.floor(element[0].offsetHeight / lineHeight) * lineHeight;
-          element.height(fullHeight);
-          var start = $parent[0].offsetTop + parseInt($('.blackout-frame').css('borderTopWidth'));
-          var offset = (fullHeight > parentHeight) ? util.random(0, fullHeight - parentHeight) : 0;
-          offset = Math.floor(offset / lineHeight) * lineHeight;
-          element.offset({top: start - offset});
         });
       }
     };

@@ -18,7 +18,7 @@
           size</button>
       </div>
     </div> -->
-    <div class="portrait-sidebar">
+    <div class="landscape-sidebar">
       <button ng-click="save()" class="tab">
         <span class="icon-eye"></span><span class="label">Preview</span>
       </button>
@@ -47,8 +47,8 @@
 
     <div class="blackout-board">
       <div class="blackout-frame"></div>
-      <div class="blackout-source" ng-bind-html="source.content" text-jump></div>
-      <canvas class="blackout-canvas" width="{{ width }}" height="{{ height }}"></canvas>
+      <div class="blackout-source" ng-bind-html="source.content"></div>
+      <canvas class="blackout-canvas" width="{{ dimensions.width }}" height="{{ dimensions.height }}"></canvas>
     </div>
   </div>
 </div>

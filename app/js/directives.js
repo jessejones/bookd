@@ -59,8 +59,6 @@ angular.module('bookd.directives', [])
     return {
       restrict: 'C',
       link: function(scope, element, attrs) {
-        var width = element.width();
-
         var close = function(e) {
           document.removeEventListener('mousedown', close, true);
           document.removeEventListener('touchstart', close, true);

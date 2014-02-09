@@ -344,12 +344,6 @@ body {
   }
 }
 
-@media screen and (min-device-width: 480px) and (max-device-width: 767px) {
-  .container {
-    width: 600px;
-  }
-}
-
 @media screen and (min-device-width: 768px) {
   body {
     font-size: 16px;
@@ -447,10 +441,6 @@ body {
 
   .brand {
     background-size: 100px 100px;
-  }
-
-  .container {
-    width: 800px;
   }
 
   .preview-nav {

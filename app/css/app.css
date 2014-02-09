@@ -134,9 +134,19 @@ body {
 }
 
 .size-dot {
+     -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   display: inline-block;
-  background-color: #FDFFFF;
   border-radius: 100%;
+}
+
+.marker-size .size-dot {
+  background-color: #FDFFFF;
+}
+
+.eraser-size .size-dot {
+  border: 1px solid #FDFFFF;
 }
 
 .size-5 {
@@ -159,8 +169,12 @@ body {
   background-color: #3F4040;
 }
 
-.current-size .size-dot {
+.marker-size .current-size .size-dot {
   background-color: #E5BF2C;
+}
+
+.eraser-size .current-size .size-dot {
+  border-color: #E5BF2C;
 }
 
 .source-info, .preview-nav button, .preview-info {

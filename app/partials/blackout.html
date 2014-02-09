@@ -11,7 +11,7 @@
         <span class="icon-eraser"></span><span class="label">Eraser</span>
       </button>
    </div>
-    <div class="tool-size">
+    <div class="tool-size {{ tool.kind + '-size' }}">
       <div class="tab-drawer closed">
         <button ng-click="setToolSize(5)" class="size-option {{ tool.size === 5 ? 'current-size' : '' }}">
           <div class="size-dot size-5">

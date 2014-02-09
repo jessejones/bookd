@@ -200,6 +200,9 @@ body {
 }
 
 .container {
+     -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
   margin: 50px 10px 50px 70px;
 }
 
@@ -375,6 +378,16 @@ body {
   }
 }
 
+@media screen and (min-device-width: 1200px) and (max-width: 1380px) {
+  .landscape-sidebar {
+    position: static;
+  }
+
+  .landscape-sidebar .tab:first-child {
+    border: 1px solid #FDFFFF;
+  }
+}
+
 @media screen and (min-device-width: 1200px) {
   .brand,
   .sidebar,
@@ -384,6 +397,10 @@ body {
   .size-option {
     width: 100px;
     height: 100px;
+  }
+
+  .container {
+    padding: 0 150px;
   }
 
   [class^="icon-"], [class*=" icon-"] {

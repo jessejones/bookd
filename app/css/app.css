@@ -384,7 +384,7 @@ body {
   }
 
   .landscape-sidebar .tab:first-child {
-    border: 1px solid #FDFFFF;
+    border-top: 1px solid #FDFFFF;
   }
 }
 

@@ -273,7 +273,6 @@ angular.module('bookd.directives', [])
         $canvas.mousedown(onMousedown);
         $canvas.bind('touchstart', onTouchstart);
         $window.addEventListener('resize', function() {
-          $blackoutBoard.width(scope.width);
           canvasOffset = $canvas.offset();
         });
       }

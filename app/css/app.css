@@ -62,7 +62,8 @@ body {
 }
 
 .brand {
-  background-image: url('/img/baku_icon.png');
+  background-color: #fff;
+  background-image: url('/img/baku.svg');
   background-repeat: no-repeat;
   background-size: 50px 50px;
   width: 50px;

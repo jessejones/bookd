@@ -42,20 +42,21 @@
   </div>
 
   <div class="container">
-    <div class="source-info">
-      <div ng-if="source.title">
-        currently <a href="http://newspaperblackout.com/">blacking out</a> {{ source.author + '’s'}}
-        <h2 class="source-title">
-          <a ng-href="http://worldcatlibraries.org/registry/gateway?isbn={{ source.isbn }}">
-            {{ source.title }}
-            <span class="icon-link"></span>
-          </a>
-        </h2>
-        <div class="new-source">
-          <a href="#" role="button" ng-click="startNew()">change text</a>
-        </div>
+    <div ng-if="!source" class="loading">
+      <img class="loading" src="/img/loading.gif">
+    </div>
+
+    <div ng-if="source" class="source-info">
+      currently <a href="http://newspaperblackout.com/">blacking out</a> {{ source.author + '’s'}}
+      <h2 class="source-title">
+        <a ng-href="http://worldcatlibraries.org/registry/gateway?isbn={{ source.isbn }}">
+          {{ source.title }}
+          <span class="icon-link"></span>
+        </a>
+      </h2>
+      <div class="new-source">
+        <a href="#" role="button" ng-click="startNew()">change text</a>
       </div>
-      <div ng-if="!source.title">Getting text…</div>
     </div>
 
     <div class="blackout-board">

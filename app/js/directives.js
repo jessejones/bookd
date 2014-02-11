@@ -100,7 +100,10 @@ angular.module('bookd.directives', [])
         }, true);
 
         scope.$watch('source.content', function(content) {
-          if (!content) return;
+          if (!content) {
+            scope.$root.dimensions.height = 0;
+            return;
+          }
           var containerHeight = (deviceWidth < 481) ? newWidth * 4 : newWidth * (3/2);
           var lineHeight = parseInt($source.find('p').css('line-height'), 10);
           var sourceHeight = $source.height();

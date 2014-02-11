@@ -27,6 +27,7 @@ angular.module('bookd.controllers', [])
 
         $scope.startNew = function() {
           if ($window.confirm('Are you sure you want to start a new poem?')) {
+            $scope.source = false;
             $scope.$broadcast('clear');
             $scope.init();
           }

@@ -178,6 +178,11 @@ body {
   border-color: #E5BF2C;
 }
 
+.loading {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
 .source-info, .preview-nav button, .preview-info {
   color: #FDFFFF;
   background-color: #3F4040;

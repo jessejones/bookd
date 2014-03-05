@@ -55,7 +55,7 @@ angular.module('bookd.directives', [])
       }
     };
   }])
-  .directive('tabDrawer', [function() {
+  .directive('drawer', [function() {
     return {
       restrict: 'C',
       link: function(scope, element, attrs) {
@@ -66,13 +66,13 @@ angular.module('bookd.directives', [])
           if ($(e.target).closest(element).length === 1) {
             return;
           }
-          element.toggleClass('opened closed');
+          element.toggleClass('drawer--opened drawer--closed');
         };
 
         var slide = function(e) {
-          element.toggleClass('opened closed');
+          element.toggleClass('drawer--opened drawer--closed');
 
-          if (element.hasClass('opened')) {
+          if (element.hasClass('drawer--opened')) {
             document.addEventListener('mousedown', close, true);
             document.addEventListener('touchstart', close, true);
           }
@@ -108,7 +108,7 @@ angular.module('bookd.directives', [])
           var lineHeight = parseInt($source.find('p').css('line-height'), 10);
           var sourceHeight = $source.height();
           var frameHeight = 0;
-          var frameBorder = lineHeight * 2;
+          var frameBorder = (deviceWidth < 769) ? lineHeight : lineHeight * 2;
           var borderStyle = 'px solid white';
           var start = element[0].offsetTop + frameBorder;
           var offset = 0;
@@ -130,7 +130,7 @@ angular.module('bookd.directives', [])
       }
     };
   }])
-  .directive('previewInfo', [function() {
+  .directive('infoPreview', [function() {
     return {
       restrict: 'C',
       link: function(scope, element, attrs) {

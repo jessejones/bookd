@@ -1,52 +1,45 @@
 <div class="blackout-edit" ng-show="mode === 'edit'">
-  <div class="sidebar">
-    <h1 class="brand">
-      <span class="label">Baku</span>
+
+  <!-- the control panel: brand, tool selection, preview, and clear -->
+  <div class="l-tiles l-tiles--tools">
+    <h1 class="tile tile--brand">
+      <span class="hidden-label">Baku</span>
     </h1>
-    <div class="tool-selection">
-      <button ng-click="setToolType('marker')" class="tab {{ tool.kind === 'marker' ? 'current-tool' : '' }}">
-        <span class="icon-marker"></span><span class="label">Marker</span>
+    <button class="icon-marker tile tile--tool {{ tool.kind === 'marker' ? 'tile--is-active' : '' }}" title="marker" ng-click="setToolType('marker')">
+      <span class="hidden-label">marker</span>
+    </button>
+    <button class="icon-eraser tile tile--tool {{ tool.kind === 'eraser' ? 'tile--is-active' : '' }}" title="eraser" ng-click="setToolType('eraser')">
+      <span class="hidden-label">eraser</span>
+    </button>
+    <div class="l-sizes drawer drawer--closed">
+      <button class="tile tile--size {{ tool.size === 5 ? 'tile--is-active' : '' }}" ng-click="setToolSize(5)">
+        <div class="size-dot size-dot--5 size-dot--{{ tool.size === 5 ? tool.kind +'--active' : tool.kind }}"></div>
+        <span class="hidden-label">small</span>
+      </button><button class="tile tile--size {{ tool.size === 15 ? 'tile--is-active' : '' }}" ng-click="setToolSize(15)">
+        <div class="size-dot size-dot--15 size-dot--{{ tool.size === 15 ? tool.kind +'--active' : tool.kind }}"></div>
+        <span class="hidden-label">medium</span>
+      </button><button class="tile tile--size {{ tool.size === 25 ? 'tile--is-active' : '' }}" ng-click="setToolSize(25)">
+        <div class="size-dot size-dot--25 size-dot--{{ tool.size === 25 ? tool.kind +'--active' : tool.kind }}"></div>
+        <span class="hidden-label">large</span>
+      </button><button class="tile tile--size" title="size">
+        <div class="size-dot size-dot--{{tool.kind}} size-dot--{{tool.size}}"></div>
+        size
       </button>
-      <button ng-click="setToolType('eraser')" class="tab {{ tool.kind === 'eraser' ? 'current-tool' : '' }}">
-        <span class="icon-eraser"></span><span class="label">Eraser</span>
-      </button>
-   </div>
-    <div class="tool-size {{ tool.kind + '-size' }}">
-      <div class="tab-drawer closed">
-        <button ng-click="setToolSize(5)" class="size-option {{ tool.size === 5 ? 'current-size' : '' }}">
-          <div class="size-dot size-5">
-            <span class="label">small</span>
-          </div>
-        </button><button ng-click="setToolSize(15)" class="size-option {{ tool.size === 15 ? 'current-size' : '' }}">
-          <div class="size-dot size-15">
-            <span class="label">medium</span>
-          </div>
-        </button><button ng-click="setToolSize(25)" class="size-option {{ tool.size === 25 ? 'current-size' : '' }}">
-          <div class="size-dot size-25">
-            <span class="label">large</span>
-          </div>
-        </button><button class="size-option tab">
-          <div class="size-dot {{ 'size-' + tool.size }}"></div>
-          <div>size</div>
-        </button>
-      </div>
     </div>
-    <div class="landscape-sidebar">
-      <button ng-click="save()" class="tab">
-        <span class="icon-eye"></span><span class="label">Preview</span>
+    <div class="l-tiles l-tiles--edit">
+      <button class="icon-eye tile tile--edit" title="preview" ng-click="save()">
+        <span class="hidden-label">preview</span>
       </button>
-      <button ng-click="clear()" class="tab">
-        <span class="icon-ccw"></span><span class="label">Clear</span>
+      <button class="icon-ccw tile tile--edit" title="clear" ng-click="clear()">
+        <span class="hidden-label">clear</span>
       </button>
     </div>
   </div>
 
-  <div class="container">
-    <div ng-if="!source" class="loading">
-      <img class="loading" src="/img/loading.gif" alt="loading">
-    </div>
+  <div class="l-workarea">
+    <img ng-if="!source" class="loading" src="/img/loading.gif" alt="loading">
 
-    <div ng-if="source" class="source-info">
+    <div ng-if="source" class="info info--source inverse">
       currently <a href="http://newspaperblackout.com/">blacking out</a> {{ source.author + '’s'}}
       <h2 class="source-title">
         <a ng-href="http://worldcatlibraries.org/registry/gateway?isbn={{ source.isbn }}">
@@ -54,11 +47,10 @@
           <span class="icon-link"></span>
         </a>
       </h2>
-      <div class="new-source">
-        <a href="#" role="button" ng-click="startNew()">change text</a>
+      <div class="text-right">
+        <button class="btn--link" ng-click="startNew()">change text</button>
       </div>
     </div>
-
     <div class="blackout-board">
       <div class="blackout-frame"></div>
       <div class="blackout-source" ng-bind-html="source.content"></div>
@@ -68,16 +60,21 @@
 </div>
 
 <div class="blackout-save" ng-show="mode === 'save'">
-  <nav class="preview-nav">
-    <button ng-click="edit()">keep editing</button><button ng-click="startNew()">start new</button>
-  </nav>
-
-  <div class="preview-info">
-    If you’re happy with your poem, save the image below. And if you’re <em>really</em> happy with it,
-    <a href="http://baku-poems.tumblr.com/submit">share your creation</a> on the <a href="http://baku-poems.tumblr.com/">Baku Poems Tumblr</a>. You can also <a href="http://baku-poems.tumblr.com/ask">give us your feedback</a>.
+  <div class="l-tiles l-tiles--preview">
+    <button class="tile tile--preview icon-back" title="edit" ng-click="edit()">
+      <span class="hidden-label">keep editing</span>
+    </button>
+    <button class="tile tile--preview icon-plus3" title="new" ng-click="startNew()">
+      <span class="hidden-label">start new</span>
+    </button>
   </div>
 
-  <div class="blackout-image">
-    <img ng-src="{{ blackoutImage }}">
+  <div class="l-workarea">
+    <div class="info info--preview inverse">
+      If you’re happy with your poem, save the image below. And if you’re <em>really</em> happy with it,
+      <a href="http://baku-poems.tumblr.com/submit">share your creation</a> on the <a href="http://baku-poems.tumblr.com/">Baku Poems Tumblr</a>. You can also <a href="http://baku-poems.tumblr.com/ask">give us your feedback</a>.
+    </div>
+
+    <img class="blackout-image" ng-src="{{ blackoutImage }}">
   </div>
 </div>

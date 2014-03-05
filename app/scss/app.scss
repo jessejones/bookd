@@ -1,0 +1,427 @@
+//------------------------------------\\
+// Mixins
+//------------------------------------\\
+
+@mixin box-sizing($model) {
+  -webkit-box-sizing: $model;
+     -moz-box-sizing: $model;
+          box-sizing: $model;
+}
+
+@mixin center-block() {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@mixin column-count($n) {
+  -webkit-column-count: $n;
+     -moz-column-count: $n;
+          column-count: $n;
+}
+
+@mixin transform($function) {
+  -webkit-transform: $function;
+     -moz-transform: $function;
+       -o-transform: $function;
+          transform: $function;
+}
+
+@mixin transition($properties) {
+  -webkit-transition: $properties;
+     -moz-transition: $properties;
+       -o-transition: $properties;
+          transition: $properties;
+}
+
+@mixin user-select($target) {
+  -ms-user-select: $target;
+  -moz-user-select: $target;
+  -webkit-user-select: $target;
+}
+
+//------------------------------------\\
+// Typography
+//------------------------------------\\
+
+@import url(http://fonts.googleapis.com/css?family=Volkhov:400,400italic,700,700italic);
+$default-font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+$source-font-family: Volkhov, Georgia, serif;
+// $typecsset-show-baseline: true; //delete in production
+@import "typecsset";
+
+/* Icon Font */
+@font-face {
+  font-family: 'icon';
+  src:url('/fonts/icon.eot?-ekmrwm');
+  src:url('/fonts/icon.eot?#iefix-ekmrwm') format('embedded-opentype'),
+    url('/fonts/icon.woff?-ekmrwm') format('woff'),
+    url('/fonts/icon.ttf?-ekmrwm') format('truetype'),
+    url('/fonts/icon.svg?-ekmrwm#icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: 'icon';
+  speak: none;
+  @include typecsset-font-size(20px);
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-eye:before { content: "\e601"; }
+.icon-ccw:before { content: "\e602"; }
+.icon-link:before { content: "\e605"; }
+.icon-plus:before { content: "\e607"; }
+.icon-plus2:before { content: "\e600"; }
+.icon-plus3:before { content: "\e606"; }
+.icon-back:before { content: "\e608"; }
+.icon-marker:before { content: "\e603"; }
+.icon-eraser:before { content: "\e604"; }
+
+/* for screen readers
+ * credit: http://www.nczonline.net/blog/2013/04/01/making-accessible-icon-buttons
+ */
+.hidden-label {
+  display: block;
+  height: 1px;
+  overflow: hidden;
+  font-size: 0;
+}
+@media screen and (min-device-width: 1200px) {
+  [class^="icon-"],
+  [class*=" icon-"] {
+    @include typecsset-font-size(40px);
+  }
+}
+
+//------------------------------------\\
+// Colors
+//------------------------------------\\
+
+$background-color: #E4E5E5;
+$emphasis-background-color: #3F4040;
+$emphasis-color: #E5BF2C;
+$plain-background-color: #7E7F7F;
+$plain-color: #FDFFFF;
+
+//------------------------------------\\
+// Other Variables
+//------------------------------------\\
+
+$square-side-sm: 2 * $typecsset-base-line-height;
+$square-side-lg: 4 * $typecsset-base-line-height;
+$margin-sm: 12px;
+
+//------------------------------------\\
+// Global Styles
+//------------------------------------\\
+
+body {
+  font-family: $default-font-family;
+  font-weight: normal;
+  @include user-select(none);
+  background-color: $background-color;
+}
+
+.inverse {
+  padding: $typecsset-base-line-height / 2;
+  color: $plain-color;
+  background-color: $emphasis-background-color;
+
+  a {
+    text-decoration: none;
+    color: $emphasis-color;
+  }
+}
+
+.text-right {
+  text-align: right;
+}
+@media screen and (max-device-width: 767px) {
+  body { @include typecsset-font-size(14px); }
+  h1 { @include typecsset-font-size(21px); }
+  h2 { @include typecsset-font-size(18px); }
+  h3 { @include typecsset-font-size(16px); }
+  h4 { @include typecsset-font-size(14px); }
+  h5 { @include typecsset-font-size(14px); }
+  h6 { @include typecsset-font-size(14px); }
+}
+
+//------------------------------------\\
+// Drawer - slides in from off canvas
+//------------------------------------\\
+
+.drawer {
+  -webkit-transition: -webkit-transform 350ms ease-in-out 100ms;
+     -moz-transition: -moz-transform 350ms ease-in-out 100ms;
+       -o-transition: -o-transform 350ms ease-in-out 100ms;
+          transition: transform 350ms ease-in-out 100ms;
+}
+@mixin drawer--closed($offset-x) {
+  @include transform(translate3d($offset-x, 0, 0));
+}
+.drawer--opened {
+  @include transform(translate3d(0, 0, 0));
+}
+
+//------------------------------------\\
+// Buttons
+//------------------------------------\\
+
+.btn--link,
+.btn-link:focus,
+.btn--link:active {
+  display: inline;
+  border: 0;
+  @extend %typecsset-reset;
+  font: inherit;
+  color: $emphasis-color;
+  background: none;
+  cursor: pointer;
+}
+
+//------------------------------------\\
+// Control panel
+//------------------------------------\\
+
+// wrapper for the control panel buttons
+.l-tiles {
+  position: fixed;
+  z-index: 1000;
+  width: $square-side-sm;
+}
+.l-tiles--tools {
+  top: 0;
+  left: 0;
+}
+.l-tiles--edit {}
+.l-tiles--preview {
+  top: $square-side-sm;
+  left: 0;
+}
+// wrapper for buttons representing sizes
+.l-sizes {
+  width: 4 * $square-side-sm;
+}
+.l-sizes.drawer--closed {
+  @include drawer--closed(-3 * $square-side-sm);
+}
+
+// control panel buttons or "tiles"
+.tile {
+  @include box-sizing(border-box);
+  width: $square-side-sm;
+  height: $square-side-sm;
+  border: 0;
+  @extend %typecsset-reset;
+  color: $plain-color;
+  background-color: $plain-background-color;
+}
+.tile--is-active {
+  color: $emphasis-color;
+  background-color: $emphasis-background-color;
+}
+// the branding (not actually a button)
+.tile--brand {
+  background-color: #fff;
+  background-image: url('/img/baku.svg');
+  background-repeat: no-repeat;
+  background-size: $square-side-sm $square-side-sm;
+}
+.tile--tool { border-bottom: 1px solid $plain-color; }
+.tile--edit { border-top: 1px solid $plain-color; }
+.tile--preview+.tile--preview { border-top: 1px solid $plain-color; }
+.tile--size {
+  display: inline-block;
+  vertical-align: top;
+  border-bottom: 0;
+  font-family: $default-font-family;
+  @include typecsset-font-size(11px, $line-height: false);
+
+  &:nth-last-of-type(2) {
+    border-right: 1px solid $plain-color;
+  }
+  .size-dot {
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 100%;
+  }
+  .size-dot--marker {
+    background-color: $plain-color;
+  }
+  .size-dot--eraser {
+    border: 1px solid $plain-color;
+  }
+  .size-dot--marker--active {
+    background-color: $emphasis-color;
+  }
+  .size-dot--eraser--active {
+    border: 1px solid $emphasis-color;
+  }
+  .size-dot--5 {
+    width: 3px;
+    height: 3px;
+  }
+  .size-dot--15 {
+    width: 6px;
+    height: 6px;
+  }
+  .size-dot--25 {
+    width: 9px;
+    height: 9px;
+  }
+}
+@media screen and (orientation: landscape) {
+  .l-tiles--edit {
+    top: $square-side-sm;
+    right: 0;
+  }
+  .tile--edit:first-child {
+    border-top: 0;
+  }
+}
+@media screen and (min-device-width: 1200px) and (max-width: 1380px) {
+  .l-tiles--edit {
+    position: static;
+  }
+  .tile--edit:first-child {
+    border-top: 1px solid $plain-color;
+  }
+}
+@media screen and (min-device-width: 1200px) {
+  .l-tiles {
+    width: $square-side-lg;
+  }
+  .l-sizes {
+    width: 4 * $square-side-lg;
+  }
+  .l-sizes.drawer--closed {
+    @include drawer--closed(-3 * $square-side-lg);
+  }
+
+  .tile {
+    width: $square-side-lg;
+    height: $square-side-lg;
+  }
+  .tile--brand {
+    background-size: $square-side-lg $square-side-lg;
+  }
+  .tile--size {
+    @include typecsset-font-size(14px);
+
+    .size-dot--5 {
+      width: 5px;
+      height: 5px;
+    }
+    .size-dot--15 {
+      width: 15px;
+      height: 15px;
+    }
+    .size-dot--25 {
+      width: 25px;
+      height: 25px;
+    }
+  }
+}
+
+//------------------------------------\\
+// Main content area
+//------------------------------------\\
+
+.l-workarea {
+  @include box-sizing(content-box);
+  margin-top: $square-side-sm;
+  margin-right: $square-side-sm / 4;
+  margin-bottom: $square-side-sm;
+  margin-left: $square-side-sm * 3 / 2;
+}
+.loading,
+.info {
+  @extend %typecsset-vertical-rhythm;
+}
+.loading {
+  width: 100%;
+}
+.info {
+  @include box-sizing(border-box);
+  margin-right: auto;
+  margin-left: auto;
+  @include user-select(text);
+}
+.info--source,
+.blackout-board {
+  @include transition(height 500ms ease-in);
+}
+
+// blackout area
+.blackout-board {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background-color: #fff;
+}
+.blackout-frame {
+  position: relative;
+  z-index: 10;
+  @include box-sizing(content-box);
+  width: 100%;
+}
+.blackout-source {
+  z-index: 1;
+  margin-right: $margin-sm;
+  margin-left: $margin-sm;
+  font-family: $source-font-family;
+  text-align: justify;
+
+  img {
+    display: none;
+  }
+}
+.blackout-canvas {
+  position: absolute;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+}
+.blackout-image {
+  @include center-block;
+  @extend %typecsset-vertical-rhythm;
+}
+@media screen and (orientation: landscape) {
+  .l-workarea {
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+@media screen and (min-device-width: 768px) {
+  .info {
+    @include typecsset-space(padding);
+  }
+  .blackout-source {
+    @include typecsset-space(margin-right);
+    @include typecsset-space(margin-left);
+    @include column-count(2);
+    @include typecsset-space(-webkit-column-gap);
+    @include typecsset-space(-moz-column-gap);
+    @include typecsset-space(column-gap);
+  }
+}
+@media screen and (min-device-width: 1200px) {
+  .l-workarea {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 3 * $square-side-sm;
+    padding-right: 3 * $square-side-sm;
+  }
+  .info {
+    @include typecsset-space(margin-bottom);
+  }
+}

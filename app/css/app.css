@@ -189,9 +189,7 @@ td {
 [class*=" icon-"] {
   font-family: 'icon';
   speak: none;
-  font-size: 20px;
-  font-size: 1.25rem;
-  line-height: 1.2;
+  font-size: inherit;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -237,9 +235,6 @@ td {
   content: "\e604";
 }
 
-/* for screen readers
- * credit: http://www.nczonline.net/blog/2013/04/01/making-accessible-icon-buttons
- */
 .hidden-label {
   display: block;
   height: 1px;
@@ -247,14 +242,6 @@ td {
   font-size: 0;
 }
 
-@media screen and (min-device-width: 1200px) {
-  [class^="icon-"],
-  [class*=" icon-"] {
-    font-size: 40px;
-    font-size: 2.5rem;
-    line-height: 1.2;
-  }
-}
 body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: normal;
@@ -262,6 +249,32 @@ body {
   -moz-user-select: none;
   -webkit-user-select: none;
   background-color: #e4e5e5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-align: left;
+}
+
+sup,
+sub {
+  position: relative;
+  height: 0;
+  vertical-align: baseline;
+  _vertical-align: bottom;
+  line-height: 1;
+}
+
+sup {
+  bottom: 1ex;
+}
+
+sub {
+  top: 0.5ex;
 }
 
 .inverse {
@@ -280,9 +293,9 @@ body {
 
 @media screen and (max-device-width: 767px) {
   body {
-    font-size: 14px;
-    font-size: 0.875rem;
-    line-height: 1.7142857;
+    font-size: 12px;
+    font-size: 0.75rem;
+    line-height: 2;
   }
 
   h1 {
@@ -380,6 +393,9 @@ body {
   width: 48px;
   height: 48px;
   border: 0;
+  font-size: 20px;
+  font-size: 1.25rem;
+  line-height: 1.2;
   color: #fdffff;
   background-color: #7e7f7f;
 }
@@ -487,6 +503,9 @@ body {
   .tile {
     width: 96px;
     height: 96px;
+    font-size: 36px;
+    font-size: 2.25rem;
+    line-height: 1.3333333;
   }
 
   .tile--brand {
@@ -544,6 +563,11 @@ body {
   transition: height 500ms ease-in;
 }
 
+.source-title [class^="icon-"],
+.source-title [class*=" icon-"] {
+  font-size: 16px;
+}
+
 .blackout-board {
   position: relative;
   overflow: hidden;
@@ -595,6 +619,11 @@ body {
   .info {
     padding: 48px;
     padding: 3rem;
+  }
+
+  .source-title [class^="icon-"],
+  .source-title [class*=" icon-"] {
+    font-size: 32px;
   }
 
   .blackout-source {

@@ -65,7 +65,7 @@ $source-font-family: Volkhov, Georgia, serif;
 [class*=" icon-"] {
   font-family: 'icon';
   speak: none;
-  @include typecsset-font-size(20px);
+  font-size: inherit;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -85,20 +85,13 @@ $source-font-family: Volkhov, Georgia, serif;
 .icon-marker:before { content: "\e603"; }
 .icon-eraser:before { content: "\e604"; }
 
-/* for screen readers
- * credit: http://www.nczonline.net/blog/2013/04/01/making-accessible-icon-buttons
- */
+// for screen readers
+// credit: http://www.nczonline.net/blog/2013/04/01/making-accessible-icon-buttons
 .hidden-label {
   display: block;
   height: 1px;
   overflow: hidden;
   font-size: 0;
-}
-@media screen and (min-device-width: 1200px) {
-  [class^="icon-"],
-  [class*=" icon-"] {
-    @include typecsset-font-size(40px);
-  }
 }
 
 //------------------------------------\\
@@ -130,6 +123,32 @@ body {
   background-color: $background-color;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-align: left;
+}
+
+// keep consistent line spacing
+// http://www.adobe.com/cfusion/communityengine/index.cfm?event=showdetails&productId=1&postId=5341
+sup,
+sub {
+  position: relative;
+  height: 0;
+  vertical-align: baseline;
+  _vertical-align: bottom; // IE 6
+  line-height: 1;
+}
+sup {
+  bottom: 1ex;
+}
+sub {
+  top: 0.5ex;
+}
+
 .inverse {
   padding: $typecsset-base-line-height / 2;
   color: $plain-color;
@@ -145,7 +164,7 @@ body {
   text-align: right;
 }
 @media screen and (max-device-width: 767px) {
-  body { @include typecsset-font-size(14px); }
+  body { @include typecsset-font-size(12px); }
   h1 { @include typecsset-font-size(21px); }
   h2 { @include typecsset-font-size(18px); }
   h3 { @include typecsset-font-size(16px); }
@@ -221,6 +240,7 @@ body {
   height: $square-side-sm;
   border: 0;
   @extend %typecsset-reset;
+  @include typecsset-font-size(20px);
   color: $plain-color;
   background-color: $plain-background-color;
 }
@@ -309,6 +329,7 @@ body {
   .tile {
     width: $square-side-lg;
     height: $square-side-lg;
+    @include typecsset-font-size(36px);
   }
   .tile--brand {
     background-size: $square-side-lg $square-side-lg;
@@ -359,6 +380,12 @@ body {
 .blackout-board {
   @include transition(height 500ms ease-in);
 }
+.source-title {
+  [class^="icon-"],
+  [class*=" icon-"] {
+    font-size: 16px;
+  }
+}
 
 // blackout area
 .blackout-board {
@@ -404,6 +431,12 @@ body {
 @media screen and (min-device-width: 768px) {
   .info {
     @include typecsset-space(padding);
+  }
+  .source-title {
+    [class^="icon-"],
+    [class*=" icon-"] {
+      font-size: 32px;
+    }
   }
   .blackout-source {
     @include typecsset-space(margin-right);
